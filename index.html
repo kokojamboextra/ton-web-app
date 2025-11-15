@@ -278,23 +278,26 @@
         .nft-image {
             width: 60px;
             height: 60px;
-            background: var(--gradient);
             border-radius: 12px;
             margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
+            border: 2px solid rgba(255, 107, 0, 0.5);
         }
 
         .nft-name {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--primary-light);
             text-align: center;
             max-width: 80px;
+            line-height: 1.2;
         }
 
         .roulette-pointer {
@@ -361,11 +364,20 @@
             margin-bottom: 10px;
         }
 
+        .gift-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            margin-right: 15px;
+            border: 2px solid rgba(255, 107, 0, 0.5);
+        }
+
         .gift-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--primary-light);
-            margin-left: 15px;
         }
 
         .gift-date {
@@ -451,6 +463,29 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 107, 0, 0.3);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -474,7 +509,7 @@
                 
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value" id="spins-left">2</div>
+                        <div class="stat-value" id="spins-left">0</div>
                         <div class="stat-label">Прокруток</div>
                     </div>
                     <div class="stat-card">
@@ -486,12 +521,15 @@
                 <div class="roulette-container">
                     <div class="roulette-pointer"></div>
                     <div class="roulette-track" id="roulette-track">
-                        <!-- NFT будут добавляться динамически -->
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <div>Загрузка NFT...</div>
+                        </div>
                     </div>
                 </div>
 
-                <button class="spin-button pulse" id="spin-btn">
-                    КРУТИТЬ РУЛЕТКУ
+                <button class="spin-button pulse" id="spin-btn" disabled>
+                    ЗАГРУЗКА...
                 </button>
 
                 <div class="notification">
@@ -509,7 +547,10 @@
                 <div class="section-title">КОЛЛЕКЦИЯ ПОДАРКОВ</div>
                 
                 <div class="gift-grid" id="gifts-list">
-                    <!-- Подарки будут добавляться динамически -->
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <div>Загрузка подарков...</div>
+                    </div>
                 </div>
 
                 <div class="notification">
@@ -581,6 +622,10 @@
                     </div>
                 </div>
 
+                <button class="withdraw-button" onclick="connectBot()">
+                    ПОДКЛЮЧИТЬ БОТА
+                </button>
+
                 <div class="notification">
                     <div style="font-weight: 600; margin-bottom: 5px;">Автоматическая передача</div>
                     <div style="color: var(--text-secondary); font-size: 0.9rem;">
@@ -597,7 +642,7 @@
         Telegram.WebApp.expand();
 
         let userData = {
-            spins: 2,
+            spins: 0,
             referrals: 0,
             gifts: [],
             userId: null,
@@ -606,52 +651,150 @@
             nftItems: []
         };
 
-        function initUser() {
+        // Ваши NFT с реальными изображениями
+        const defaultNFTs = [
+            { 
+                name: "West-Sign", 
+                image: "https://i.ibb.co/0Q8s8p8/west-sign.jpg",
+                rarity: "rare",
+                value: 150
+            },
+            { 
+                name: "Astral-Shard", 
+                image: "https://i.ibb.co/0Q8s8p8/astral-shard.jpg", 
+                rarity: "epic",
+                value: 250
+            },
+            { 
+                name: "Eternal-Rose", 
+                image: "https://i.ibb.co/0Q8s8p8/eternal-rose.jpg",
+                rarity: "legendary",
+                value: 500
+            },
+            { 
+                name: "Clover-Pin", 
+                image: "https://i.ibb.co/0Q8s8p8/clover-pin.jpg",
+                rarity: "uncommon", 
+                value: 75
+            },
+            { 
+                name: "Snoop-Sigar", 
+                image: "https://i.ibb.co/0Q8s8p8/snoop-sigar.jpg",
+                rarity: "rare",
+                value: 180
+            },
+            { 
+                name: "Precious-Peach", 
+                image: "https://i.ibb.co/0Q8s8p8/precious-peach.jpg",
+                rarity: "epic",
+                value: 300
+            },
+            { 
+                name: "Plush-Pepe", 
+                image: "https://i.ibb.co/0Q8s8p8/plush-pepe.jpg",
+                rarity: "mythic",
+                value: 750
+            },
+            { 
+                name: "Heart-Locket", 
+                image: "https://i.ibb.co/0Q8s8p8/heart-locket.jpg",
+                rarity: "rare",
+                value: 120
+            },
+            { 
+                name: "Durpv's-Cap", 
+                image: "https://i.ibb.co/0Q8s8p8/durpvs-cap.jpg",
+                rarity: "epic", 
+                value: 280
+            }
+        ];
+
+        async function initUser() {
             const tg = window.Telegram.WebApp;
             userData.userId = tg.initDataUnsafe.user?.id;
             
             if (userData.userId) {
-                userData.referralLink = `https://t.me/your_bot?start=ref_${userData.userId}`;
+                userData.referralLink = `https://t.me/${tg.initDataUnsafe.user?.username || 'your_bot'}?start=${userData.userId}`;
                 document.getElementById('referral-link').textContent = userData.referralLink;
+                
+                // Запрашиваем данные пользователя
+                await loadUserData();
+            } else {
+                // Демо режим
+                userData.spins = 3;
+                userData.referrals = 5;
+                userData.nftItems = defaultNFTs;
+                createRouletteTrack();
+                updateUI();
             }
             
-            // Загрузка NFT будет через main.py команду /add_nft
-            // Пока используем демо данные
-            loadDemoNFTs();
-            updateUI();
             initEventListeners();
         }
 
-        function loadDemoNFTs() {
-            // Эти NFT будут заменены на те, что добавятся через /add_nft в main.py
-            const demoNFTs = [
-                { name: "Golden Dragon", emoji: "DRG" },
-                { name: "Phoenix Feather", emoji: "PHX" },
-                { name: "Crystal Shard", emoji: "CRY" },
-                { name: "Moon Pearl", emoji: "MOON" },
-                { name: "Sun Stone", emoji: "SUN" },
-                { name: "Star Dust", emoji: "STAR" },
-                { name: "Ocean Tear", emoji: "OCEAN" },
-                { name: "Forest Heart", emoji: "TREE" },
-                { name: "Fire Spirit", emoji: "FIRE" },
-                { name: "Ice Crystal", emoji: "ICE" }
-            ];
-            
-            userData.nftItems = demoNFTs;
-            createRouletteTrack();
+        async function loadUserData() {
+            try {
+                // Отправляем запрос на получение данных пользователя
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.sendData(JSON.stringify({
+                        action: 'get_user_data',
+                        user_id: userData.userId
+                    }));
+                }
+                
+                // Загружаем NFT из базы данных (в реальном приложении это будет API запрос)
+                await loadNFTsFromDatabase();
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Используем демо данные в случае ошибки
+                userData.spins = 3;
+                userData.referrals = 0;
+                userData.nftItems = defaultNFTs;
+                createRouletteTrack();
+                updateUI();
+            }
+        }
+
+        async function loadNFTsFromDatabase() {
+            try {
+                // В реальном приложении здесь будет запрос к вашему API
+                // Пока используем ваши NFT
+                userData.nftItems = defaultNFTs;
+                createRouletteTrack();
+                
+                // Обновляем UI
+                userData.spins = 3; // В реальном приложении это будет из базы данных
+                userData.referrals = 0;
+                updateUI();
+                
+            } catch (error) {
+                console.error('Error loading NFTs:', error);
+                userData.nftItems = defaultNFTs;
+                createRouletteTrack();
+            }
         }
 
         function createRouletteTrack() {
             const track = document.getElementById('roulette-track');
             track.innerHTML = '';
             
+            if (!userData.nftItems || userData.nftItems.length === 0) {
+                track.innerHTML = `
+                    <div class="loading">
+                        <div>Нет доступных NFT</div>
+                    </div>
+                `;
+                return;
+            }
+            
             // Добавляем NFT в трек (повторяем для бесконечного эффекта)
             for (let i = 0; i < 3; i++) {
                 userData.nftItems.forEach((item, index) => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
+                    itemElement.setAttribute('data-nft-id', index);
                     itemElement.innerHTML = `
-                        <div class="nft-image">${item.emoji}</div>
+                        <div class="nft-image" style="background-image: url('${item.image}')"></div>
                         <div class="nft-name">${item.name}</div>
                     `;
                     track.appendChild(itemElement);
@@ -702,6 +845,7 @@
             userData.isSpinning = true;
             const spinBtn = document.getElementById('spin-btn');
             spinBtn.disabled = true;
+            spinBtn.textContent = 'КРУТИТСЯ...';
             userData.spins--;
             
             const track = document.getElementById('roulette-track');
@@ -721,24 +865,30 @@
                     setTimeout(() => {
                         item.classList.remove('fading');
                     }, 500);
-                }, (index % 10) * 100);
+                }, (index % userData.nftItems.length) * 100);
             });
             
             setTimeout(() => {
                 const wonIndex = Math.floor(Math.random() * userData.nftItems.length);
                 const wonNFT = userData.nftItems[wonIndex];
                 
+                // Добавляем выигрыш в коллекцию
                 userData.gifts.push({
+                    id: Date.now(),
                     name: wonNFT.name,
-                    emoji: wonNFT.emoji,
-                    date: new Date().toLocaleDateString('ru-RU'),
-                    id: Date.now()
+                    image: wonNFT.image,
+                    rarity: wonNFT.rarity,
+                    value: wonNFT.value,
+                    date: new Date().toLocaleDateString('ru-RU')
                 });
                 
+                // Отправляем данные в бота
                 if (window.Telegram && Telegram.WebApp) {
                     Telegram.WebApp.sendData(JSON.stringify({
-                        action: 'nft_won',
+                        action: 'spin_roulette',
                         nft_name: wonNFT.name,
+                        nft_rarity: wonNFT.rarity,
+                        nft_value: wonNFT.value,
                         user_id: userData.userId
                     }));
                 }
@@ -746,6 +896,7 @@
                 updateUI();
                 userData.isSpinning = false;
                 spinBtn.disabled = false;
+                spinBtn.textContent = 'КРУТИТЬ РУЛЕТКУ';
                 
                 // Анимация выигрыша
                 const winningItems = track.querySelectorAll('.roulette-item');
@@ -757,7 +908,7 @@
                     }, 3000);
                 }
                 
-                showNotification(`ПОЗДРАВЛЯЕМ! Вы выиграли: ${wonNFT.name}`, 'success');
+                showNotification(`🎉 ПОЗДРАВЛЯЕМ! Вы выиграли: ${wonNFT.name} (${wonNFT.rarity})`, 'success');
                 
             }, 3000);
         }
@@ -785,8 +936,13 @@
                     giftElement.className = 'gift-card';
                     giftElement.innerHTML = `
                         <div class="gift-header">
-                            <div class="nft-image" style="width: 40px; height: 40px; font-size: 1rem;">${gift.emoji}</div>
-                            <div class="gift-name">${gift.name}</div>
+                            <div class="gift-icon" style="background-image: url('${gift.image}')"></div>
+                            <div>
+                                <div class="gift-name">${gift.name}</div>
+                                <div style="color: var(--text-secondary); font-size: 0.8rem;">
+                                    ${gift.rarity} • $${gift.value}
+                                </div>
+                            </div>
                         </div>
                         <div class="gift-date">Выигран: ${gift.date}</div>
                         <button class="withdraw-button" onclick="withdrawGift(${gift.id})">
@@ -797,13 +953,45 @@
                 });
             }
             
-            document.getElementById('spin-btn').disabled = userData.spins <= 0 || userData.isSpinning;
-            document.getElementById('spin-btn').textContent = userData.isSpinning ? 'КРУТИТСЯ...' : 'КРУТИТЬ РУЛЕТКУ';
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.disabled = userData.spins <= 0 || userData.isSpinning;
+            spinBtn.textContent = userData.isSpinning ? 'КРУТИТСЯ...' : 'КРУТИТЬ РУЛЕТКУ';
+            
+            if (userData.spins > 0 && !userData.isSpinning) {
+                spinBtn.classList.add('pulse');
+            } else {
+                spinBtn.classList.remove('pulse');
+            }
+        }
+
+        function connectBot() {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'connect_bot',
+                    user_id: userData.userId
+                }));
+                showNotification('Запрос на подключение бота отправлен!', 'success');
+            } else {
+                showNotification('Функция доступна только в Telegram', 'warning');
+            }
         }
 
         function withdrawGift(giftId) {
-            showNotification('Для вывода необходимо подключить бота', 'warning');
-            switchTab('info');
+            const gift = userData.gifts.find(g => g.id === giftId);
+            if (gift) {
+                if (window.Telegram && Telegram.WebApp) {
+                    Telegram.WebApp.sendData(JSON.stringify({
+                        action: 'withdraw_gift',
+                        gift_id: giftId,
+                        gift_name: gift.name,
+                        user_id: userData.userId
+                    }));
+                    showNotification(`Запрос на вывод "${gift.name}" отправлен!`, 'success');
+                } else {
+                    showNotification('Для вывода необходимо подключить бота', 'warning');
+                    switchTab('info');
+                }
+            }
         }
 
         function showNotification(message, type = 'info') {
@@ -823,6 +1011,8 @@
                 z-index: 10000;
                 font-weight: 600;
                 box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                max-width: 90%;
+                text-align: center;
             `;
             notification.textContent = message;
             document.body.appendChild(notification);
@@ -834,16 +1024,35 @@
             }, 3000);
         }
 
+        // Функция для обновления NFT из main.py
+        function updateNFTs(newNFTs) {
+            userData.nftItems = newNFTs;
+            createRouletteTrack();
+            updateUI();
+        }
+
+        // Функция для обновления данных пользователя
+        function updateUserData(newData) {
+            userData.spins = newData.spins_left || userData.spins;
+            userData.referrals = newData.referrals_count || userData.referrals;
+            userData.gifts = newData.gifts || userData.gifts;
+            updateUI();
+        }
+
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             initUser();
         });
 
-        // Функция для обновления NFT из main.py
-        function updateNFTs(newNFTs) {
-            userData.nftItems = newNFTs;
-            createRouletteTrack();
-        }
+        // Обработчик сообщений от бота
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'update_nfts') {
+                updateNFTs(event.data.nfts);
+            }
+            if (event.data && event.data.type === 'update_user_data') {
+                updateUserData(event.data.userData);
+            }
+        });
     </script>
 </body>
 </html>
