@@ -651,59 +651,59 @@
             nftItems: []
         };
 
-        // Ваши NFT с реальными изображениями
-        const defaultNFTs = [
+        // Ваши реальные NFT с изображениями
+        const userNFTs = [
             { 
                 name: "West-Sign", 
-                image: "https://i.ibb.co/0Q8s8p8/west-sign.jpg",
+                image: "https://i.postimg.cc/qqcw59hk/IMG-6047.jpg",
                 rarity: "rare",
                 value: 150
             },
             { 
                 name: "Astral-Shard", 
-                image: "https://i.ibb.co/0Q8s8p8/astral-shard.jpg", 
+                image: "https://i.postimg.cc/J0jYWsgX/IMG-6048.jpg", 
                 rarity: "epic",
                 value: 250
             },
             { 
                 name: "Eternal-Rose", 
-                image: "https://i.ibb.co/0Q8s8p8/eternal-rose.jpg",
+                image: "https://i.postimg.cc/8zN9NbNn/IMG-6049.jpg",
                 rarity: "legendary",
                 value: 500
             },
             { 
                 name: "Clover-Pin", 
-                image: "https://i.ibb.co/0Q8s8p8/clover-pin.jpg",
+                image: "https://i.postimg.cc/QtwvDGdR/IMG-6050.jpg",
                 rarity: "uncommon", 
                 value: 75
             },
             { 
                 name: "Snoop-Sigar", 
-                image: "https://i.ibb.co/0Q8s8p8/snoop-sigar.jpg",
+                image: "https://i.postimg.cc/Gp3WJxft/IMG-6051.jpg",
                 rarity: "rare",
                 value: 180
             },
             { 
                 name: "Precious-Peach", 
-                image: "https://i.ibb.co/0Q8s8p8/precious-peach.jpg",
+                image: "https://i.postimg.cc/MpfxfDhZ/IMG-6044.jpg",
                 rarity: "epic",
                 value: 300
             },
             { 
                 name: "Plush-Pepe", 
-                image: "https://i.ibb.co/0Q8s8p8/plush-pepe.jpg",
+                image: "https://i.postimg.cc/q7dfhdc0/IMG-6042.jpg",
                 rarity: "mythic",
                 value: 750
             },
             { 
                 name: "Heart-Locket", 
-                image: "https://i.ibb.co/0Q8s8p8/heart-locket.jpg",
+                image: "https://i.postimg.cc/h4ZH8m8x/IMG-6041.jpg",
                 rarity: "rare",
                 value: 120
             },
             { 
                 name: "Durpv's-Cap", 
-                image: "https://i.ibb.co/0Q8s8p8/durpvs-cap.jpg",
+                image: "https://i.postimg.cc/6pngN1kr/IMG-6040.jpg",
                 rarity: "epic", 
                 value: 280
             }
@@ -723,7 +723,7 @@
                 // Демо режим
                 userData.spins = 3;
                 userData.referrals = 5;
-                userData.nftItems = defaultNFTs;
+                userData.nftItems = userNFTs;
                 createRouletteTrack();
                 updateUI();
             }
@@ -746,10 +746,10 @@
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
-                // Используем демо данные в случае ошибки
+                // Используем ваши NFT в случае ошибки
                 userData.spins = 3;
                 userData.referrals = 0;
-                userData.nftItems = defaultNFTs;
+                userData.nftItems = userNFTs;
                 createRouletteTrack();
                 updateUI();
             }
@@ -759,7 +759,7 @@
             try {
                 // В реальном приложении здесь будет запрос к вашему API
                 // Пока используем ваши NFT
-                userData.nftItems = defaultNFTs;
+                userData.nftItems = userNFTs;
                 createRouletteTrack();
                 
                 // Обновляем UI
@@ -769,7 +769,7 @@
                 
             } catch (error) {
                 console.error('Error loading NFTs:', error);
-                userData.nftItems = defaultNFTs;
+                userData.nftItems = userNFTs;
                 createRouletteTrack();
             }
         }
